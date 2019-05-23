@@ -3,6 +3,11 @@
 require_once(ROOT_PATH.'/data/Mysql.php');
 
 class BlogRepository extends MysqlDB {
+    /**
+     * Insert blog
+     * 
+     * @param BlogModel $blog
+     */
     public function insert(BlogModel $blog) {
         $title = $blog->getTitle();
         $contend = $blog->getContent();
@@ -13,38 +18,50 @@ class BlogRepository extends MysqlDB {
         $result = $this->query($sql);
 
         if ($result) {
-            echo "New record created successfully";
+            return array('status'=>'success');
+        } else {
+            return false;
         }
     }
 
-    public function update(BlogModel $blog) {
-        $title = $blog->getTitle();
-        $contend = $blog->getContent();
-        $author = $blog->getAuthor();
-        $id = $blog->getId();
+    public function update($data = array()) {
+        if (isset($data)){
+            $fields = array('title', 'content','id');
+            foreach ($fields as $key) {
+                if (empty($data[$key])){
+                    continue;
+                } else {
+                    break;
+                }
+            }
 
-        $sql = "update MyBlog set Title='".$title."', Content='".$contend."', author=".number_format($author)." where id =".$id.";";
-
-        $result = $this->query($sql);
-
-        if ($result) {
-            echo "New record created successfully";
+            $sql = "UPDATE MyBlog SET Title='".$data['title']."', Content='".$data['content']."' WHERE id =".$data['id'].";";
+            $result = $this->query($sql);
+            if ($result) {
+                return array('status'=>'success');
+            } else {
+                return array('status'=>'fail');
+            }
+        } else {
+            return false;
         }
     }
 
     public function delete($id){
-        $sql = 'delete from MyBlog where id ='.$id.';';
+        $sql = 'DELETE FROM MyBlog WHERE id ='.$id.';';
         $result = $this->query($sql);
 
         if ($result) {
-            echo "New record created successfully";
+            return array('status'=>'success');
+        } else {
+            return false;
         }
     }
 
     public function getList() 
     {
         $return = array();
-        $sql = "select * from MyBlog;";
+        $sql = "SELECT * FROM MyBlog;";
         $result = $this->query($sql);
     
         if ($result->num_rows > 0) {
@@ -52,17 +69,25 @@ class BlogRepository extends MysqlDB {
                 $return[] = new BlogModel(array('title'=>$row["Title"], 'content'=>$row["Content"], 'idAuthor'=>$row["author"], 'idBlog'=>$row['id']));
             }
         }
-        return $return;
+        if ($result) {
+            return $return;
+        } else {
+            return false;
+        }
     }
 
     public function getDetail($id) {
-        $sql = "select * from MyBlog where id=".$id.";";
+        $sql = "SELECT * FROM MyBlog WHERE id=".$id.";";
         $result = $this->query($sql);
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 $return[] = new BlogModel(array('title'=>$row["Title"], 'content'=>$row["Content"], 'idAuthor'=>$row["author"], 'idBlog'=>$row['id']));
             }
         }
-        return $return;
+        if ($result) {
+            return $return;
+        } else {
+            return false;
+        }
     }
 }

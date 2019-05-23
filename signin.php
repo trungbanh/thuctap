@@ -2,18 +2,19 @@
     define('ROOT_PATH', __DIR__);
 
     require_once(ROOT_PATH.'/Controler/AuthorControler.php');
+    require_once(ROOT_PATH. '/Templates/Header.phtml');
 ?>
+<div class='updatebox'>
+    <form action="signin.php" method="post">
 
-<form action="signin.php" method="post">
+    nickname: <input name="nickname" type="text"> <br/>
+    email: <input name="email" type="text"> <br/>
+    password: <input name="password" type="text"> <br/>
 
-nickname: <input name="nickname" type="text"> <br/>
-email: <input name="email" type="text"> <br/>
-password: <input name="password" type="text"> <br/>
-
-<input type="submit" name="signin" value="dang nhap" >
-<input type="submit" name="signup" value="dang ky" >
-</form>
-
+    <input type="submit" name="signin" value="dang nhap" >
+    <input type="submit" name="signup" value="dang ky" >
+    </form>
+</div>
 <?php 
     function insert (){
         $repo = new AuthorControler();
@@ -32,4 +33,7 @@ password: <input name="password" type="text"> <br/>
     }
 
 ?>
+
+
+<?php require_once (ROOT_PATH.'/Templates/Footer.phtml'); ?>
 
