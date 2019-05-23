@@ -1,0 +1,63 @@
+.header{
+    background-color:powderblue;
+    height: 20%;
+}
+.container {
+    color: whitesmoke;
+    background-color: #00004f;
+    margin: auto;
+    padding: 20px;
+}
+
+.body {
+    margin-left: 5em;
+    margin-right: 5em;
+    min-height: calc(80vh - 70px);
+}
+.card {
+
+    display:inline-block;
+    background-color: rgb(26, 204, 174);
+    padding: 1em;
+}
+
+a:link {
+    color:rgb(198, 224, 152);
+}
+
+.sign {
+    position: relative; 
+    left: 80%; 
+    width: 5em; 
+    height: 60%; 
+}
+
+.Title_web {
+    position: relative; 
+    left: 2em; 
+    width: 80%; 
+    height: 1px; 
+}
+
+.form {
+    padding: 1em;
+}
+
+.footer {
+    height: 50px;
+    padding: 1em;
+    background-color: indianred;
+}
+
+.view_blog {
+    height: 100%;
+    margin: auto;
+    text-align: center;
+    color: cornflowerblue;
+    background-color:black;
+}
+
+.author_blog {
+    text-align:right;
+    padding: 1em; 
+};
