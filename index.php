@@ -22,12 +22,9 @@
             <textarea name='noidung' rows="20" cols="35" ></textarea> <br> <br>
             <input type="submit" value='thêm bài' name='insertblog'/>
             <?php
-               function insert(){
-                  $repo = new BlogControler();
-                  $repo->insert($_POST['title'],$_POST['noidung'],9);
-                }
                 if(isset($_POST['insertblog'])){
-                   insert();
+                  $ctl = new BlogControler();
+                  $result = $ctl->insert($_POST['title'],$_POST['noidung'],9);
                 }
              ?>
          </form> 
@@ -36,8 +33,8 @@
 
       <div class='body'> 
          <?php
-            $repo = new BlogControler();
-            $viewAllblog = $repo->getAll();
+            $ctl = new BlogControler();
+            $viewAllblog = $ctl->getAll();
             foreach ($viewAllblog as $blog) { ?>
             <a href= <?php echo 'http://trungtrung.com/detail.php?id='.$blog->getId(); ?> > 
                <div class='card'>

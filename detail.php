@@ -5,9 +5,11 @@ include_once(ROOT_PATH . '/Templates/Header.phtml');
 require_once(ROOT_PATH . '/Controler/BlogControler.php');
 
 if(isset($_GET["id"])) {
-    $repo = new BlogControler();
-    // die ('------------------'.$idblog.'------------------');
-    $viewAllblog = $repo->getDetail($_GET["id"]);
+    $ctl = new BlogControler();
+    $viewAllblog = $ctl->getDetail($_GET["id"]);
+    if ($viewAllblog == false) {
+        echo '<h1> id không tồn tại  </h1>';
+    } else {
     foreach ($viewAllblog as $blog) { ?>
     <div class='row'>
         <div class='slide'>
@@ -32,18 +34,14 @@ if(isset($_GET["id"])) {
             </h5>
         </div>
         </div>
-    <?php } ?>
+    <?php }
+    } ?>
 <?php } else {
-    function delete() {
-        $repo = new BlogControler();
-        $repo->delete($_POST['idblog']);
-    }
-
-    if(isset($_POST['delblog'])){
-        delete();
-        header("Location: http://trungtrung.com/");
-    }
+            if(isset($_POST['delblog'])){
+                $ctl = new BlogControler();
+                $ctl->delete($_POST['idblog']);
+                header("Location: http://trungtrung.com/");
+            }
 ?>
-    <h5>khong tim thay bai viet </h5>
 <?php } ?>
 <?php include_once(ROOT_PATH . '/Templates/Footer.phtml'); ?>

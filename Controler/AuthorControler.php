@@ -1,5 +1,5 @@
 <?php 
-    require_once(ROOT_PATH . '/model/author.php');
+    require_once(ROOT_PATH . '/model/AuthorModel.php');
     
     require_once(ROOT_PATH . '/Reponsitory/AuthorRepository.php');
     class AuthorControler{

@@ -8,14 +8,16 @@
 ;
     $repo = new BlogControler();
     $viewAllblog = $repo->getDetail($_GET["id"]);
-    foreach ($viewAllblog as $blog) { 
+    if ($viewAllblog) {
+        foreach ($viewAllblog as $blog) { 
+   
         ?>
 
 <div class='updatebox'>
     <div class='form'>
         <form action="update.php" method="POST">
-            <label for="id">id bài viết hiện tại:</label>
-            <input name="id" value= <?php echo $_GET["id"] ?> readonly /> <br/>
+            <label for="id">id bài viết hiện tại:  <?php echo $_GET["id"] ?>  </label>
+            <input name="id" value= <?php echo $_GET["id"] ?> type=hidden  /> <br/>
             <label for="title">tên bài viết :</label>
             <textarea type="text" name="title" id="title" rows="2" cols="35" > <?php echo $blog->getTitle(); ?> </textarea> <br> <br>
             <textarea type=text name="noidung" id="nodung"  rows="30" cols="35"> <?php echo $blog->getContent(); ?> </textarea><br><br>
@@ -23,15 +25,19 @@
         </form> 
     </div>
 </div>
-<?php }
+<?php } } else {
+    echo '<h1>id khong ton tai </h1>';
+}
 
-}  else {
+} else {
     if(isset($_POST['updateblog'])){
         $repo = new BlogControler();
         $data = array ('id'=>$_POST['id'],"title"=>$_POST['title'],'content'=>$_POST['noidung']);
-        $repo->update($data);
-
-        header("Location: http://trungtrung.com/");
+        $result = $repo->update($data);
+        
+        if ($result){
+            header("Location: http://trungtrung.com/");
+        }
     } 
 }
 ?>

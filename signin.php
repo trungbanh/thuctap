@@ -16,20 +16,15 @@
     </form>
 </div>
 <?php 
-    function insert (){
+    
+    if (isset($_POST['signup'])) {
         $repo = new AuthorControler();
         $repo->insert($_POST['nickname'],$_POST['email'],$_POST['password']);
     }
-    function login() {
+    if (isset($_POST['signin'])){
         $repo = new AuthorControler();
         $user = $repo->login($_POST['email'],$_POST['password']);
         print('<h3>'.$user.'</h3>');
-    }
-    if (isset($_POST['signup'])) {
-        insert();
-    }
-    if (isset($_POST['signin'])){
-        login();
     }
 
 ?>
