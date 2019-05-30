@@ -1,4 +1,6 @@
-<?php
+<?php namespace Blog\data;
+
+use Mysqli;
 
 define('ERROR_REPORTING', E_ALL | E_STRICT);
 
@@ -31,6 +33,10 @@ class MysqlDB {
         } else {
             echo "Error: " . $sql . "<br>" . $this->conn->error;
         }
+    }
+
+    public function theLastId(){
+        return mysqli_insert_id($this->conn);
     }
 
     public function close() {
