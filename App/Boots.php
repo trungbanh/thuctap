@@ -4,8 +4,8 @@ use \Blog\App\Request;
 
 
 class Boots {
-    protected $request;
 
+    protected $request;
     public function __construct(Request $request) {
         $this->request = $request;
     }
@@ -13,32 +13,72 @@ class Boots {
     public function getControllerMethod() {
         switch($this->request->requestMethod()) {
             case 'GET':
-                if (empty($this->request->Query())) {
+                if ($this->request->subname()==='update') {
+                    return 'getUpdateLayout';
+                }
+                if ($this->request->subname()==='logon') {
+                    return 'logon';
+                }
+                if (empty($this->request->query())) {
                     return 'all';
                 } else {
                     return 'detail';
                 }
             break;
             case 'PUT':
-                return 'update';
-            case 'POST':
                 return 'insert';
+            case 'POST':
+                return 'update';
             case 'DELETE':
                 return 'delete';
-
+            case 'PATCH' :
+                return 'login';
         }
     }
 
     public function run() {
+        session_start();
+        $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
+            require_once(ROOT_PATH."/config/Router.php");
+        });
+        
+        // Fetch method and URI from somewhere
+        $httpMethod = $_SERVER['REQUEST_METHOD'];
+        $uri = $_SERVER['REQUEST_URI'];
+        
+        // Strip query string (?foo=bar) and decode URI
+        if (false !== $pos = strpos($uri, '?')) {
+            $uri = substr($uri, 0, $pos);
+        }
+        $uri = rawurldecode($uri);
+        
+        $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+        switch ($routeInfo[0]) {
+            case \FastRoute\Dispatcher::NOT_FOUND:
+                // ... 404 Not Found
+                throw new Exception ('404 Not Found');
+                break;
+            case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+                $allowedMethods = $routeInfo[1];
+                // ... 405 Method Not Allowed
 
-        $myrouter = require_once(ROOT_PATH.'/config/Router.php'); 
-        $controllerName = $myrouter[$this->request->controllerName()];
-        $controllerClass = new $controllerName;
+                throw new Exception ('405 Method Not Allowed');
+                break;
+            case \FastRoute\Dispatcher::FOUND:
+                $handler = $routeInfo[1];
+                $vars = $routeInfo[2];
 
-        $controllerMethod = $this->getControllerMethod();
+                list($className, $classMethod) = explode("@",$handler);
+                $classinit = new $className();
+                $this->request->setQuery($vars);
+                call_user_func_array(array($classinit,$classMethod),array($this->request));
+                break;
 
-        // die(var_dump(new $controllerName));
+            default:
+                throw new Exception ('N/A method Not Allowed');
+        }
+        // =====================================================
 
-        return call_user_func_array(array($controllerClass, $controllerMethod), array($this->request));
+        // return call_user_func_array(array($controllerClass, $controllerMethod), array($this->request));
     }
 }

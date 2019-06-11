@@ -29,9 +29,9 @@ class AuthorReponsitory extends \Blog\data\MysqlDB {
     }
 
     public function insert(AuthorModel $author) {
-        $name = $author->getNickName();
-        $mail = $author->getMail();
-        $pass = $author->getPassword();
+        $name = $author->nickName;
+        $mail = $author->mail;
+        $pass = $author->password;
         $stmt = $this->conn->prepare("INSERT INTO Author (`nickname`, `mail`, `passwork`) VALUES (?,?,?)");
         $stmt->bind_param("sss",$name,$mail,$pass);
         $result = $stmt->execute();

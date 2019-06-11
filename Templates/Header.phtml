@@ -1,13 +1,22 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
 <body>
     <header class="header">
         <div>
-            <a href="/#" style='color: red;'> <h1 class='Title_web'>Trung blog </h1> </a> 
+            <a href="/blogs" style='color: red;'> <h1 class='Title_web'>Trung blog </h1> </a> 
             <div class='sign'>
-                <a href="http://trungtrung.com/signin.php"> <img class='login' src="static/Mushroom - 1UP.ico" /> </a>
+                <a href="/author"> <img class='login' src="../static/Mushroom - 1UP.ico" /> </a>
+            
+                <div>
+                    <?php 
+                        if (isset($_SESSION['id_user'])) {
+                            echo "<h5 style='color: red;> " .$_SESSION['id_user']."</h5>";
+                        }
+                    ?>
+                </div>
             </div>
         </div>
     </header>

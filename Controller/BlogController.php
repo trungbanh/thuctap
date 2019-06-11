@@ -15,11 +15,11 @@ use \Blog\App\Request;
          * 
          * @return boolean 
          */
-        public function insert( $data = array()) {
-            $ten = $data['title'];
-            $noidung = $data['content'];
-            $tacgia = $data['idAuthor'];
-            
+        public function insert(Request $request) {
+            $ten = $request->input('title');
+            $noidung = $request->input('content');
+            $tacgia = 9;
+
             if (!empty($ten) && !empty($noidung) && !empty($tacgia) ){
                 $baiviet = new BlogModel(array('title'=>$ten, 'content'=>$noidung, 'idAuthor'=>$tacgia));
                 $repo = new BlogReponsitory();
@@ -42,9 +42,10 @@ use \Blog\App\Request;
          *  
          * @return boolean 
          */        
-        public function update(\Blog\App\Request $request) {
+        public function update(Request $request) {
             $fields = array('title', 'content');
 
+            // die (var_dump($request->input()));
             $data = $request->input();
             foreach ($fields as $key) {
                 if (empty($data[$key])){
@@ -55,17 +56,13 @@ use \Blog\App\Request;
                 return false;
             }
             $repo = new BlogReponsitory();
-            // if (!empty($this->detail($request))) {
-                $result = $repo->update($data);
-                $repo->close();
-                if ($result) {
-                    return true;
-                } else {
-                    return false;
-                }
-            // } else {
-            //     return false;
-            // }
+            $result = $repo->update($data);
+            $repo->close();
+            if ($result) {
+                return true;
+            } else {
+                return false;
+            }
             
         }
 
@@ -74,19 +71,15 @@ use \Blog\App\Request;
          * 
          * @return boolean 
          */
-        public function delete ($data= array()) {
-            $id = $data['id'];
-            if (!empty($this->detail($id))){
-                $repo = new BlogReponsitory();
-                $result = $repo->delete($id);
-                $repo->close();
-                if ($result) {
-                    return true;
-                } else {
-                    return false;
-                }
+        public function delete (Request $request) {
+            $id = $request->input('id');
+            $repo = new BlogReponsitory();
+            $result = $repo->delete($id);
+            $repo->close();
+            if ($result) {
+                return true;
             } else {
-                return false ;
+                return false;
             }
         }
 
@@ -95,12 +88,12 @@ use \Blog\App\Request;
          * 
          * @return array BlogModel or false 
          */
-        function all() {
+        public function all() {
             $repo = new BlogReponsitory();
             $list = $repo->getList();
             $repo->close();
             if (!empty($list)) {
-                return $list;
+                return require_once(ROOT_PATH.'/View/layout/index.php');
             } else {
                 return false;
             }
@@ -112,7 +105,8 @@ use \Blog\App\Request;
          * @return array BlogModel or false 
          */
         function detail(Request $request) {
-            $id = $request->query('id');
+
+            $id = $request->getQueryByKey('id');
 
             $repo = new BlogReponsitory();
             $list = $repo->getDetail($id);
@@ -123,5 +117,20 @@ use \Blog\App\Request;
                 return false;
             }
         }
+
+        function getUpdateLayout (Request $request) {
+            $id = $request->getQueryByKey('id');
+            $repo = new BlogReponsitory();
+            $list = $repo->getDetail($id);
+            $repo->close();
+            if (!empty($list)) {
+                return require_once(ROOT_PATH . '/View/layout/update.php');
+            } else {
+                return false;
+            }
+        }
+        // public function get_all_users_handler(){
+        //     die(var_dump(func_get_args()));
+        // }
     }
 ?>  

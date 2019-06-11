@@ -14,11 +14,3 @@
         );
     }
 ?>
-
-<!-- 
-CREATE TABLE Author (
-idAuthor INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-nickname TEXT NOT NULL,
-mail text NOT NULL,
-passwork binary(16) NOT NULL );
- -->

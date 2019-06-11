@@ -9,9 +9,9 @@ class Request {
     protected $path_info =      array() ;
     protected $path =           array();
     protected $controllerName = '';
-
     protected $input = array();
     protected $all_input = array() ;
+    protected $allquery = array();
 
     public function __construct() {
         $this->path_info=      $_SERVER['PATH_INFO'];
@@ -21,10 +21,14 @@ class Request {
     }
 
     protected function parse_raw_http_request(array &$a_data){
+
+        if (!empty($_POST)){
+            $a_data = $_POST ;
+        }
         // read incoming data
         $input = file_get_contents('php://input');
         // grab multipart boundary from content type header
-        if (preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches)) {
+        if (isset( $_SERVER['CONTENT_TYPE']) && preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches)) {
             $boundary = $matches[1];
             // split content by boundary and get rid of last -- element
             $a_blocks = preg_split("/-+$boundary/", $input);
@@ -68,6 +72,10 @@ class Request {
         return $this->controllerName;
     }
 
+    public function subName(){
+        return $this->subName;
+    }
+
     public function all() {
         if (isset($_SERVER['QUERY_STRING'])) {
             $query = explode('&',$_SERVER['QUERY_STRING']);
@@ -103,6 +111,14 @@ class Request {
             return $_GET[$key];
         }
         return $defaut;
+    }
+
+    public function getQueryByKey($key){
+        return $this->allquery[$key];
+    }
+
+    public function setQuery(array $data){
+        $this->allquery = $data;
     }
 
     public function has ($key = array()) {

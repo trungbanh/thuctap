@@ -9,11 +9,3 @@ use Blog\Model\AbstractModel;
         );
     }
 ?>
-
-
-<!-- CREATE TABLE MyBlog (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-Title TEXT NOT NULL,
-Content text NOT NULL,
-author Int(6)
-) -->

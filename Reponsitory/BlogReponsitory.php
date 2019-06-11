@@ -45,49 +45,32 @@ class BlogReponsitory extends MysqlDB {
         $typeParams = '';
         $bindParams = array();
         $valueParams = array();
-
         if (!empty($data)){
             $fields = array('title', 'content');
-
             if (isset($data['title'])){
                 $valueParams[] = " Title = ?";
                 $typeParams .= 's';
                 $bindParams[] = $data['title'];
             }
-                
             if (isset($data['content'])) {
                 $valueParams[] = " Content = ?";
                 $typeParams .= 's';
                 $bindParams[] = $data['content'];
             }
-
         }
-        
         if (!empty($valueParams)) {
             $updateSql = implode(', ', $valueParams);
         }
-        
         $id = $data['id'];
         $typeParams .= 'i';
         $bindParams[] = $id;
-
         if (empty($updateSql)) {
             return false;
         }
-
         $rawSQL = "UPDATE MyBlog SET {$updateSql} WHERE id = ?";
         $stmt = $this->conn->prepare($rawSQL);
-
-        if ($stmt) {
-            return false;
-        }
-
-
         array_unshift($bindParams, $typeParams);
-
-        // die("UPDATE MyBlog SET {$updateSql} WHERE id = ?"); ssi 
-        call_user_func_array(array($stmt,'bind_param'),array($bindParams));
-
+        call_user_func_array(array($stmt,'bind_param'),$bindParams);
         if (!$stmt->execute()) {
             die(var_dump($stmt->error));
         } 
@@ -112,7 +95,6 @@ class BlogReponsitory extends MysqlDB {
         $stmt->bind_param("i",$id);
         $stmt->execute();
         $result = $stmt->get_result();
-
         if ($result) {
             return true;
         } else {
@@ -132,7 +114,6 @@ class BlogReponsitory extends MysqlDB {
         $stmt = $this->conn->prepare("SELECT * FROM MyBlog;");
         $stmt->execute();
         $result = $stmt->get_result();
-    
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 $return[] = new BlogModel(array('title'=>$row["Title"], 'content'=>$row["Content"], 'idAuthor'=>$row["author"], 'idBlog'=>$row['id']));
