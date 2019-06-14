@@ -11,10 +11,10 @@
             // event.preventDefault();
             $.ajax({
                 type : 'PATCH',
-                url : 'http://localhost:5000/author',
+                url : '/author',
                 data : $("#myform").serialize(),
                 success: function() {
-                    alert("worked");
+                    window.location="/blogs";
                 }
             });
             return false;
@@ -24,10 +24,10 @@
             // event.preventDefault();
             $.ajax({
                 type : 'PUT',
-                url : 'http://localhost:5000/author',
+                url : '/author',
                 data : $("#myform").serialize(),
                 success: function() {
-                    alert("worked");
+                    window.location="/blogs";
                 }
             });
             return false;
@@ -36,9 +36,9 @@
 </script>
 <div class='updatebox'>
     <form id='myform' enctype='multipart/form-data'>
-        tên: <input name="nickname" type="text"> <br/>
-        email: <input name="mail" type="text"> <br/>
-        mật khẩu : <input name="pass" type="password"> <br/>
+        Tên: <input name="nickname" type="text"> <br/>
+        Email: <input name="mail" type="text"> <br/>
+        Mật khẩu : <input name="pass" type="password"> <br/>
         <button id='login' name="login" >Đăng Nhập</button>
         <button id='signin' name="signin" >Đăng Ký</button> 
     </form>

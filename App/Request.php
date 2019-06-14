@@ -10,14 +10,19 @@ class Request {
     protected $path =           array();
     protected $controllerName = '';
     protected $input = array();
-    protected $all_input = array() ;
+    protected $all_input = array();
     protected $allquery = array();
+    protected $session = array();
+
 
     public function __construct() {
         $this->path_info=      $_SERVER['PATH_INFO'];
         $this->path =          explode('/', $this->path_info);
         $this->controllerName =$this->path[1];
         $this->parse_raw_http_request($this->input);
+        if ( isset($_SESSION)) {
+            $this->session = $_SESSION;
+        }
     }
 
     protected function parse_raw_http_request(array &$a_data){
@@ -146,7 +151,11 @@ class Request {
             return $this->input ;
         } elseif (!empty($this->query())) {
             return $this->query() ;
-        }
+        }  
+    }
+
+    public function getSession($key) {
+        return $this->session[$key];
     }
 }   
 ?>

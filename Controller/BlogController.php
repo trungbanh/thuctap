@@ -5,6 +5,7 @@ use \Blog\Reponsitory\BlogReponsitory;
 use \Blog\Model\BlogModel;
 use \Blog\data\MysqlDB;
 use \Blog\App\Request;
+use \Blog\App\Session;
 
     class BlogController{
         /**
@@ -16,18 +17,19 @@ use \Blog\App\Request;
          * @return boolean 
          */
         public function insert(Request $request) {
+
+            $secc = new Session();
+
             $ten = $request->input('title');
             $noidung = $request->input('content');
-            $tacgia = 9;
-
+            $tacgia = $secc->getUser()->id_author;
+          
             if (!empty($ten) && !empty($noidung) && !empty($tacgia) ){
                 $baiviet = new BlogModel(array('title'=>$ten, 'content'=>$noidung, 'idAuthor'=>$tacgia));
                 $repo = new BlogReponsitory();
                 $result = $repo->insert($baiviet);
-                $repo->close();
-
                 if ($result) {
-                    return true;
+                    return move_on('/blog/'.$result['id']);
                 } else {
                     return false;
                 }
@@ -43,10 +45,15 @@ use \Blog\App\Request;
          * @return boolean 
          */        
         public function update(Request $request) {
-            $fields = array('title', 'content');
 
-            // die (var_dump($request->input()));
+            $fields = array('title', 'content');
             $data = $request->input();
+
+            $secc = new Session();
+            if ($request->input('idAuthor') != strval($secc->getUser()->id_author)) {
+                return \move_on('/blog/'.$data['id']);
+            }
+
             foreach ($fields as $key) {
                 if (empty($data[$key])){
                     continue;
@@ -57,13 +64,11 @@ use \Blog\App\Request;
             }
             $repo = new BlogReponsitory();
             $result = $repo->update($data);
-            $repo->close();
             if ($result) {
-                return true;
+                return \move_on('/blog/'.$data['id']);
             } else {
-                return false;
+                return \move_on('/blog/'.$data['id']);
             }
-            
         }
 
         /**
@@ -72,14 +77,17 @@ use \Blog\App\Request;
          * @return boolean 
          */
         public function delete (Request $request) {
+            $secc = new Session();
+            if ($request->input('idAuthor') != strval($secc->getUser()->id_author)) {
+                return null;
+            }
             $id = $request->input('id');
             $repo = new BlogReponsitory();
             $result = $repo->delete($id);
-            $repo->close();
             if ($result) {
-                return true;
+                return \move_on(' /blogs');
             } else {
-                return false;
+                return \move_on(' /blogs');
             }
         }
 
@@ -91,9 +99,8 @@ use \Blog\App\Request;
         public function all() {
             $repo = new BlogReponsitory();
             $list = $repo->getList();
-            $repo->close();
             if (!empty($list)) {
-                return require_once(ROOT_PATH.'/View/layout/index.php');
+                return render('/View/layout/index.php',$list);
             } else {
                 return false;
             }
@@ -110,9 +117,8 @@ use \Blog\App\Request;
 
             $repo = new BlogReponsitory();
             $list = $repo->getDetail($id);
-            $repo->close();
             if (!empty($list)) {
-                return require_once(ROOT_PATH . '/View/layout/detail.php');
+                return render('/View/layout/detail.php',$list);
             } else {
                 return false;
             }
@@ -122,15 +128,11 @@ use \Blog\App\Request;
             $id = $request->getQueryByKey('id');
             $repo = new BlogReponsitory();
             $list = $repo->getDetail($id);
-            $repo->close();
             if (!empty($list)) {
-                return require_once(ROOT_PATH . '/View/layout/update.php');
+                return render('/View/layout/update.php',$list);
             } else {
                 return false;
             }
         }
-        // public function get_all_users_handler(){
-        //     die(var_dump(func_get_args()));
-        // }
     }
 ?>  

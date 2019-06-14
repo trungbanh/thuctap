@@ -1,45 +1,25 @@
 <?php namespace Blog\data;
 
-use Mysqli;
-
-define('ERROR_REPORTING', E_ALL | E_STRICT);
+// define('ERROR_REPORTING', E_ALL | E_STRICT);
 
 class MysqlDB {
-    protected $conn;
+    /**
+     * @var \Zend\Db\Adapter\Adapter
+     */
+    protected $adapter;
 
     public function __construct() 
     {
-        $servername = "localhost";
-        $username = "teng";
-        $password = "password";
-        $dbname =  "myDB";
-        try {
-            $this->conn = new mysqli();
+        $driverConfig = require_once(ROOT_PATH."/config/configdb.php");
+        $this->adapter = new \Zend\Db\Adapter\Adapter($driverConfig);
 
-            @$this->conn->connect($servername, $username, $password, $dbname);
-            
-            if ($this->conn->connect_error) {
-                die("Connection failed: " . $this->conn->connect_error);
-            }
-        } catch(Exception $e) {
-            die('ok');
-        }
+    }
+    
+    protected function qi($name) {
+        return $this->adapter->platform->quoteIdentifier($name);
     }
 
-    public function query ($sql){
-        $result = $this->conn->query($sql);
-        if ($result) {
-            return $result;
-        } else {
-            echo "Error: " . $sql . "<br>" . $this->conn->error;
-        }
-    }
-
-    public function theLastId(){
-        return mysqli_insert_id($this->conn);
-    }
-
-    public function close() {
-        $this->conn->close();
+    protected function fp($name) {
+        return $this->adapter->driver->formatParameterName($name);
     }
 }

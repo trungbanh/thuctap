@@ -1,12 +1,10 @@
+@import './reset.css';
+
 .header{
-    color: red;
+    color: #ff5e00;
     background-color: #192e5e;
-    height: 15%;
-    position: sticky;
-    position: -webkit-sticky;
-    top: 0;
+    height: 50px;
     overflow: hidden;
-    margin-bottom: 3em;
 }
 
 .row {
@@ -73,21 +71,24 @@ a:link.btn {
 }
 
 .Title_web {
-    position: relative; 
-    left: 2em; 
-    height: 1px;
+    float: left;
+    padding: 10px 15px;
+    font-size: 24px;
+    text-decoration: none;
+    text-transform: uppercase;
 }
 
 .sign {
-    position: relative; 
-    left: 80%; 
-    width: 5em; 
-    height: 60%;
- 
+    float: right;
+    height: 50px;
+    padding: 10px 20px;
+    vertical-align: middle;
+    line-height: 50px;
+
 }
 
 .login {
-    width: 3em;
+    width: 50px;
 }
 
 
@@ -106,16 +107,20 @@ a:link.btn {
 
 .view_blog {
     height: 100%;
-    margin: auto;
     text-align: center;
     color:cadetblue;
     background-color:#ffffff;
     flex: 80%;
     background-color: white;
-    padding: 20px;
+    padding: 10px;
 }
 
 .author_blog {
     text-align:right;
     padding: 1em; 
+}
+
+.user{
+    display: inline;
+    color: red;
 }

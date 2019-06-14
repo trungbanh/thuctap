@@ -1,22 +1,31 @@
+<?php 
+    use \Blog\App\Session;
+?>
+
 <html>
 <head>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap&subset=vietnamese" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
 <body>
     <header class="header">
         <div>
-            <a href="/blogs" style='color: red;'> <h1 class='Title_web'>Trung blog </h1> </a> 
+            <a href="/blogs"> <h1 class='Title_web'>Trung blog </h1> </a> 
             <div class='sign'>
-                <a href="/author"> <img class='login' src="../static/Mushroom - 1UP.ico" /> </a>
-            
-                <div>
-                    <?php 
-                        if (isset($_SESSION['id_user'])) {
-                            echo "<h5 style='color: red;> " .$_SESSION['id_user']."</h5>";
-                        }
-                    ?>
-                </div>
+                <?php  if (isset($_SESSION['user'])){  ?>
+                        <span class="user">
+                            <?php 
+                                $mysess = new Session();
+                                echo "<a href='/author/update' >". $mysess->getUser()->nickname ."</a>";
+                            ?>
+                        </span>
+                        <span>
+                            <a href='/author/logout' >   ||    đăng xuất  </a>
+                        </span>
+                    <?php } else { ?>
+                        <a href="/author"> <span> Đăng nhập </span> </a>
+                    <?php }?>
             </div>
         </div>
     </header>

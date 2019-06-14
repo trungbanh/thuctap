@@ -12,5 +12,9 @@
             'password', 
             'idAuthor'
         );
+
+        public static function hashpass ($pass){
+            return hash('md5',$pass,TRUE);
+        }
     }
 ?>

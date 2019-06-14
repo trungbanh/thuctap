@@ -11,6 +11,12 @@ class ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22
     );
 
     public static $prefixLengthsPsr4 = array (
+        'Z' => 
+        array (
+            'Zend\\Stdlib\\' => 12,
+            'Zend\\Hydrator\\' => 14,
+            'Zend\\Db\\' => 8,
+        ),
         'F' => 
         array (
             'FastRoute\\' => 10,
@@ -22,6 +28,18 @@ class ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22
     );
 
     public static $prefixDirsPsr4 = array (
+        'Zend\\Stdlib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-stdlib/src',
+        ),
+        'Zend\\Hydrator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-hydrator/src',
+        ),
+        'Zend\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-db/src',
+        ),
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',

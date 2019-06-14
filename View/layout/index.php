@@ -1,30 +1,34 @@
 <?php 
 use \Blog\Controller\BlogController;
-
-// die(var_dump($_SERVER));
+use \Blog\App\Session;
 
 include_once(ROOT_PATH . '/Templates/Header.phtml'); 
 
 ?>
-    <script >
-        $(document).ready(function(){
-            $("#myform").on("submit",function(event){
-                event.preventDefault();
-                $.ajax({
-                    type       : 'PUT',
-                    url        : 'http://localhost:5000/blog',
-                    data       : $("#myform").serialize(),
-                    success: function() {
-                        alert("worked");
-                    }
-                });
-                return false;
-            });
-        });
-    </script>
-
     <div class='row'>
         <div class='slide'>
+            <?php 
+                $mysess = new Session();
+                if ( $mysess->isSession() ){
+                    // die(var_dump($mysess->getUser()));
+            ?>
+            <script >
+                $(document).ready(function(){
+                    $("#myform").on("submit",function(event){
+                        event.preventDefault();
+                        $.ajax({
+                            type       : 'PUT',
+                            url        : '/blog',
+                            data       : $("#myform").serialize(),
+                            success: function() {
+                                window.location="/blogs";
+                            }
+                        });
+                        return false;
+                    });
+                });
+            </script>
+
             <div class='form'>
                 <form id="myform" enctype='multipart/form-data'> 
                     <label for="title">tên bài viết :</label>
@@ -34,17 +38,25 @@ include_once(ROOT_PATH . '/Templates/Header.phtml');
                     <input type="submit" id='target' value="tạo bài viết mới"/>
                 </form> 
             </div>
+            <?php        
+                } else {
+            ?>
+            <div class='form'>
+                <img src="./static/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
+                <p> quảng cáo  </p>
+            </div>
+                <?php } ?>
         </div>
         <div class='body'>
             <?php foreach ($list as $blog) {?>
-            <a href = <?php echo "/blog/".$blog->idBlog ?> > 
+            <a href = <?php echo "/blog/".$blog->getId() ?> > 
                 <div class='card'>
-                    <h1><?php echo $blog->title; ?> </h1>
-                    <h5 class="author_blog"> 
+                    <span><?php echo $blog->title; ?> </span>
+                    <span class="author_blog"> 
                         <?php
-                            echo "write by ".$blog->idAuthor;
+                            echo "write by ".$blog->author;
                         ?>
-                    </h5>
+                    </span>
                 </div>  
             </a>
             <?php }?>

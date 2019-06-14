@@ -10,34 +10,9 @@ class Boots {
         $this->request = $request;
     }
 
-    public function getControllerMethod() {
-        switch($this->request->requestMethod()) {
-            case 'GET':
-                if ($this->request->subname()==='update') {
-                    return 'getUpdateLayout';
-                }
-                if ($this->request->subname()==='logon') {
-                    return 'logon';
-                }
-                if (empty($this->request->query())) {
-                    return 'all';
-                } else {
-                    return 'detail';
-                }
-            break;
-            case 'PUT':
-                return 'insert';
-            case 'POST':
-                return 'update';
-            case 'DELETE':
-                return 'delete';
-            case 'PATCH' :
-                return 'login';
-        }
-    }
-
     public function run() {
         session_start();
+
         $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
             require_once(ROOT_PATH."/config/Router.php");
         });
@@ -56,13 +31,13 @@ class Boots {
         switch ($routeInfo[0]) {
             case \FastRoute\Dispatcher::NOT_FOUND:
                 // ... 404 Not Found
-                throw new Exception ('404 Not Found');
+                // throw new \Exception ('404 Not Found');
                 break;
             case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];
                 // ... 405 Method Not Allowed
 
-                throw new Exception ('405 Method Not Allowed');
+                // throw new \Exception ('405 Method Not Allowed');
                 break;
             case \FastRoute\Dispatcher::FOUND:
                 $handler = $routeInfo[1];
@@ -71,7 +46,7 @@ class Boots {
                 list($className, $classMethod) = explode("@",$handler);
                 $classinit = new $className();
                 $this->request->setQuery($vars);
-                call_user_func_array(array($classinit,$classMethod),array($this->request));
+                echo call_user_func_array(array($classinit,$classMethod),array($this->request));
                 break;
 
             default:
