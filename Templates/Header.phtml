@@ -1,10 +1,9 @@
 <?php 
     use \Blog\App\Session;
 ?>
-
 <html>
 <head>
-<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap&subset=vietnamese" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap&subset=vietnamese" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
@@ -12,16 +11,26 @@
     <header class="header">
         <div>
             <a href="/blogs"> <h1 class='Title_web'>Trung blog </h1> </a> 
-            <div class='sign'>
-                <?php  if (isset($_SESSION['user'])){  ?>
+            <div class="navmenu">
+                    <ul>
+                        <li><a href=/blogs>bài viết</a></li>
+                        <li><a href=/blogs>sản phẩm </a></li>
+                        <li><a href=/blogs>tìm kiếm</a></li>
+                    </ul>
+                </div>
+            <div class='sign'>  
+                <?php 
+                $user = $session->getUser();
+
+                // die(var_dump($uesr));
+                 if ($user instanceof \Blog\Model\AuthorModel){  ?>
                         <span class="user">
                             <?php 
-                                $mysess = new Session();
-                                echo "<a href='/author/update' >". $mysess->getUser()->nickname ."</a>";
+                                echo "<a id='username' href='/author/update' >". $user->nickname ."</a>";
                             ?>
                         </span>
-                        <span>
-                            <a href='/author/logout' >   ||    đăng xuất  </a>
+                        <span id="logout">
+                            <a href='/author/logout' >đăng xuất  </a>
                         </span>
                     <?php } else { ?>
                         <a href="/author"> <span> Đăng nhập </span> </a>

@@ -6,8 +6,10 @@
     use \Blog\App\Request;
     use \Blog\App\Session;
 
-    class AuthorController{
+    use Twig\Loader\FilesystemLoader;
+    use Twig\Environment;
 
+    class AuthorController{
 
         public function __destruct(){
         }
@@ -50,8 +52,7 @@
                 return render('\View\layout\detailuser.php');
             }
             return "<h3>update thất bại</h3>";
-
-        } 
+        }
 
         public function insert(Request $request) {
             // $name, $mail, $pass

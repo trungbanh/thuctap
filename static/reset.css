@@ -21,7 +21,8 @@ time, mark, audio, video {
 
 a:link,
 a:visited {
-    color: black;
+	color: rgb(204, 107, 28);
+	text-decoration: none;
 }
 
 * {

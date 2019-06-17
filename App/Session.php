@@ -9,10 +9,16 @@ class Session {
     }
 
     public function getUser () {
-        return $this->session['user'];
+        if (isset( $this->session['user'])) {
+            return  $this->session['user'];
+        }
+
+        return null;
     }
 
     public function isSession () {
         return isset($_SESSION['user']);
     }
+
+    
 }

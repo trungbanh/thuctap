@@ -33,13 +33,14 @@ include_once(ROOT_PATH . '/Templates/Header.phtml');
                 <input name="idAuthor" type=hidden value=<?php echo $blog->author; ?> />
                 <input type="submit" name='delblog' value='xóa bài này '/>
             </form> 
+            <br/>
             <a class="btn" href= <?php echo "/blog/update/". $blog->id; ?>>cập nhập nội dung</a>
 
             <?php    
                     } else {
                         ?>
 
-                <div class='form'>
+                <div class='ads'>
                     <img src="/static/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
                     <p> quảng cáo  </p>
                 </div>
@@ -60,13 +61,13 @@ include_once(ROOT_PATH . '/Templates/Header.phtml');
         </div>
         
         <article class='view_blog'>
-            <header><?php echo $blog->title; ?> </header>
-            <p> 
+            <p id="header"><?php echo $blog->title; ?> </p>
+            <p id="contend"> 
                 <?php
                     echo $blog->content;
                 ?>
             </p>
-            <p class="author_blog"> 
+            <p id="author_blog"> 
                 <?php
                     echo "write by ".$blog->author;
                 ?>

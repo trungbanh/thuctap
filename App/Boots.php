@@ -1,18 +1,17 @@
 <?php
 namespace Blog\App;
+
+use \Blog\App\App;
 use \Blog\App\Request;
 
 
 class Boots {
 
-    protected $request;
-    public function __construct(Request $request) {
-        $this->request = $request;
+    public function __construct() {
     }
 
     public function run() {
         session_start();
-
         $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
             require_once(ROOT_PATH."/config/Router.php");
         });
@@ -45,15 +44,12 @@ class Boots {
 
                 list($className, $classMethod) = explode("@",$handler);
                 $classinit = new $className();
-                $this->request->setQuery($vars);
-                echo call_user_func_array(array($classinit,$classMethod),array($this->request));
+                App::request()->setQuery($vars);
+                echo call_user_func_array(array($classinit,$classMethod),array( App::request()));
                 break;
 
             default:
                 throw new Exception ('N/A method Not Allowed');
         }
-        // =====================================================
-
-        // return call_user_func_array(array($controllerClass, $controllerMethod), array($this->request));
     }
 }

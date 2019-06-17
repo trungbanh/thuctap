@@ -12,7 +12,6 @@ include_once(ROOT_PATH . '/Templates/Header.phtml');
 ?>
 
     <div id="mgs">
-
     </div>
     <script >
         $(document).ready(function(){

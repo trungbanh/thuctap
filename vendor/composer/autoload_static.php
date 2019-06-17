@@ -7,6 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22
 {
     public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
     );
 
@@ -16,6 +18,15 @@ class ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22
             'Zend\\Stdlib\\' => 12,
             'Zend\\Hydrator\\' => 14,
             'Zend\\Db\\' => 8,
+        ),
+        'T' => 
+        array (
+            'Twig\\' => 5,
+        ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
         ),
         'F' => 
         array (
@@ -40,6 +51,18 @@ class ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-db/src',
         ),
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
@@ -50,11 +73,22 @@ class ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

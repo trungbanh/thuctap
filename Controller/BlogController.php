@@ -6,6 +6,10 @@ use \Blog\Model\BlogModel;
 use \Blog\data\MysqlDB;
 use \Blog\App\Request;
 use \Blog\App\Session;
+use \Blog\App\App;
+
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
     class BlogController{
         /**
@@ -17,13 +21,9 @@ use \Blog\App\Session;
          * @return boolean 
          */
         public function insert(Request $request) {
-
-            $secc = new Session();
-
             $ten = $request->input('title');
             $noidung = $request->input('content');
-            $tacgia = $secc->getUser()->id_author;
-          
+            $tacgia = App::session()->getUser()->id_author;
             if (!empty($ten) && !empty($noidung) && !empty($tacgia) ){
                 $baiviet = new BlogModel(array('title'=>$ten, 'content'=>$noidung, 'idAuthor'=>$tacgia));
                 $repo = new BlogReponsitory();
@@ -45,12 +45,9 @@ use \Blog\App\Session;
          * @return boolean 
          */        
         public function update(Request $request) {
-
             $fields = array('title', 'content');
             $data = $request->input();
-
-            $secc = new Session();
-            if ($request->input('idAuthor') != strval($secc->getUser()->id_author)) {
+            if ($request->input('idAuthor') != strval(App::session()->getUser()->id_author)) {
                 return \move_on('/blog/'.$data['id']);
             }
 
@@ -77,8 +74,7 @@ use \Blog\App\Session;
          * @return boolean 
          */
         public function delete (Request $request) {
-            $secc = new Session();
-            if ($request->input('idAuthor') != strval($secc->getUser()->id_author)) {
+            if ($request->input('idAuthor') != strval(App::session()->getUser()->id_author)) {
                 return null;
             }
             $id = $request->input('id');
@@ -100,7 +96,7 @@ use \Blog\App\Session;
             $repo = new BlogReponsitory();
             $list = $repo->getList();
             if (!empty($list)) {
-                return render('/View/layout/index.php',$list);
+                return render('/View/layout/index.php',array('list'=> $list));
             } else {
                 return false;
             }
@@ -112,13 +108,12 @@ use \Blog\App\Session;
          * @return array BlogModel or false 
          */
         function detail(Request $request) {
-
             $id = $request->getQueryByKey('id');
 
             $repo = new BlogReponsitory();
             $list = $repo->getDetail($id);
             if (!empty($list)) {
-                return render('/View/layout/detail.php',$list);
+                return render('/View/layout/detail.php',array('list'=> $list));
             } else {
                 return false;
             }
@@ -129,7 +124,7 @@ use \Blog\App\Session;
             $repo = new BlogReponsitory();
             $list = $repo->getDetail($id);
             if (!empty($list)) {
-                return render('/View/layout/update.php',$list);
+                return render('/View/layout/update.php',array('list'=> $list));
             } else {
                 return false;
             }
