@@ -3,10 +3,17 @@
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
-$loader = new \Twig\Loader\FilesystemLoader(ROOT_PATH . '/View/layout/');
+
+
+$loader = new \Twig\Loader\FilesystemLoader(ROOT_PATH . '/View/');
 $twig = new \Twig\Environment($loader, [
     'cache' => ROOT_PATH . '/cache/',
+    'debug' => true,
+
 ]);
+$twig->addExtension(new \Twig\Extension\DebugExtension());
+$twig->addExtension(new \Blog\App\Twig\TwigExtension());
+
 
 
 function move_on($path){
@@ -15,9 +22,8 @@ function move_on($path){
 
 function render($path, $var = array()){
     global $loader,$twig;
-    extract($var);
-    $template = $twig->load($path);
+    // $template = $twig->load($path);
 
-    echo($template->render($var));
+    echo($twig->render($path, $var));
 }
 ?>

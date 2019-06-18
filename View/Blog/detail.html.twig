@@ -1,0 +1,53 @@
+{% extends 'layout/base.html.twig' %}
+
+
+{% block body %}
+{% for blog in list %}
+    <div class='row'>
+        <div class='slide'>
+            {% if session and blog.getAuthor() == session.getIdAuthor() %}
+                <script >
+                    $(document).ready(function(){
+                        $("#myform").on("submit",function(event){
+                            event.preventDefault();
+                            $.ajax({
+                                type       : 'DELETE',
+                                url        : '/blog',
+                                data       : $("#myform").serialize(),
+                                success: function() {
+                                    window.location="/blogs";
+                                }
+                            });
+                            return true;
+                        });
+                    });
+                </script>
+                <form id='myform' enctype='multipart/form-data'>
+                    <input name="id" type=hidden value={{blog.getId()}} />
+                    <input name="idAuthor" type=hidden value={{blog.getAuthor()}} />
+                    <input type="submit" name='delblog' value='xóa bài này '/>
+                </form> 
+                <br/>
+                <a class="btn" href= {{"/blog/update/"~blog.getId()}}>cập nhập nội dung</a>
+            {% else %}
+                <div class='ads'>
+                    <img src="/static/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
+                    <p> quảng cáo  </p>
+                </div>
+                <p> phần này thuộc tác giả {{blog.getAuthor()}} </p>
+
+        {% endif %}
+        </div>
+            <article class='view_blog'>
+                <p id="header"> {{ blog.getTitle() }} </p>
+                <p id="contend"> 
+                        {{ blog.getContent() }}
+                </p>
+                <p id="author_blog"> 
+                    {{"write by " ~blog.getAuthor() }}
+                </p>
+            </article>
+        </div>
+{% endfor %}
+
+{% endblock %}

@@ -5,9 +5,7 @@
     use Blog\Reponsitory\AuthorReponsitory;
     use \Blog\App\Request;
     use \Blog\App\Session;
-
-    use Twig\Loader\FilesystemLoader;
-    use Twig\Environment;
+    use \Blog\App\App;
 
     class AuthorController{
 
@@ -49,7 +47,7 @@
             $user->mail = $mail;
             $result = $repo->updateDetail($user);
             if ($result !== null) {
-                return render('\View\layout\detailuser.php');
+                return render('detailuser.html.twig',array('session'=>App::session()->getUser()));
             }
             return "<h3>update thất bại</h3>";
         }
@@ -93,7 +91,7 @@
                 $user = $repo->login($mail, $hashpass);
                 if ($user !== null ) {
                     $_SESSION['user'] = $user;
-                    return \move_on('/View/layout/index.php');
+                    return \move_on('/blogs');
                 }
                 
             }
@@ -106,11 +104,11 @@
         }
 
         public function logon () {
-            return render('/View/layout/logon.php');
+            return render('User/logon.html.twig');
         }
 
         public function getUpdateLayout() {
-            return render('/View/layout/detailuser.php');
+            return render('User/detailuser.html.twig');
         }
     }
 ?>

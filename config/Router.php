@@ -15,3 +15,5 @@ $r->addRoute('GET','/author/logout','\Blog\Controller\AuthorController@logout');
 $r->addRoute('GET','/author/update','\Blog\Controller\AuthorController@getUpdateLayout');
 $r->addRoute('POST','/author/update/detail','\Blog\Controller\AuthorController@updateDetail');
 $r->addRoute('POST','/author/update/password','\Blog\Controller\AuthorController@updatePass');
+// test
+$r->addRoute('GET', '/test', '\Blog\Controller\BlogController@test');

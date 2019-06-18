@@ -1,16 +1,6 @@
-<?php 
-use \Blog\App\Session;
-include_once(ROOT_PATH . '/Templates/Header.phtml'); 
+{% extends 'layout/base.html.twig' %}
 
-
-    $sess = new Session();
-
-    if ($sess->isSession()) {
-        $user = $sess->getUser();
-        // die(var_dump($user));
-        
-?>
-
+{% block body %}
     <div id="mgs">
     </div>
     <script >
@@ -23,8 +13,6 @@ include_once(ROOT_PATH . '/Templates/Header.phtml');
                     success: function(data) {
                         console.log(data);
                         $("#mgs").html(data);
-                        //window.location="/blogs";
-                        // alert(data);
                     }
                 });
                 return false;
@@ -40,11 +28,13 @@ include_once(ROOT_PATH . '/Templates/Header.phtml');
             });
         });
     </script>
+
+    {% set user = App.session.getUser() %}
     <div class='updatebox row'>
         <form id='detai' enctype='multipart/form-data'>
-            <input name="idAuthor" type="hidden" value= <?php echo $user->id_author?> > <br/>
-            Tên: <input name="nickname" type="text" value= <?php echo $user->nickname?>> <br/>
-            Email: <input name="mail" type="text" value= <?php echo $user->mail?>> <br/>
+            <input name="idAuthor" type="hidden" value= {{user.getIdAuthor()}} > <br/>
+            Tên: <input name="nickname" type="text" value= {{user.getNickname()}} > <br/>
+            Email: <input name="mail" type="text" value= {{ user.getMail()}}> <br/>
             Mật khẩu cũ : <input name="passold" type="password" > <br/>
             Mật khẩu mới : <input name="passnew" type="password" > <br/>
             Mật khẩu mới nhập lại : <input name="passre" type="password" > <br/>
@@ -53,8 +43,4 @@ include_once(ROOT_PATH . '/Templates/Header.phtml');
         </form>
     </div>
 
-<?php } ?>
-
-<?php
-include_once(ROOT_PATH . '/Templates/Footer.phtml'); 
-?>
+{% endblock %}

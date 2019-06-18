@@ -1,15 +1,14 @@
-<?php 
-use \Blog\Controller\BlogController;
-use \Blog\App\Session;
+{% extends '/layout/base.html.twig' %}
 
-render('/Templates/Header.phtml');
+{% block title %} index {% endblock %}
 
-?>
+{% block body %}
     <div class='row'>
         <div class='slide'>
-            <?php 
-                if ( $session->isSession() ){
-            ?>
+
+        {% set user = App.session.getUser() %}
+
+            {% if (user) %}
             <script >
                 $(document).ready(function(){
                     $("#myform").on("submit",function(event){
@@ -36,29 +35,26 @@ render('/Templates/Header.phtml');
                     <input type="submit" id='target' value="tạo bài viết mới"/>
                 </form> 
             </div>
-            <?php        
-                } else {
-            ?>
+            {% else %}
             <div class='ads'>
                 <img src="./static/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
                 <p> quảng cáo  </p>
             </div>
-                <?php } ?>
+            {% endif %}
         </div>
         <div class='body'>
-            <?php foreach ($list as $blog) {?>
-            <a href = <?php echo "/blog/".$blog->getId() ?> > 
+            {% for blog in list %}
+            <a href = {{ "/blog/"~ blog.getId() }} > 
                 <div class='card'>
-                    <p id="title_blog"><?php echo $blog->title; ?> </p> <br/>
+                    <p id="title_blog">{{ blog.getTitle() }}</p> <br/>
                     <span id="author_blog"> 
-                        <?php
-                            echo "write by ".$blog->author;
-                        ?>
+                            {{ "write by "~ blog.getAuthor() }}
                     </span>
                 </div>  
             </a>
-            <?php }?>
+            {% endfor %}
         </div>
 
         </div>
-<?php include_once(ROOT_PATH . '/Templates/Footer.phtml'); ?>
+
+{% endblock %}

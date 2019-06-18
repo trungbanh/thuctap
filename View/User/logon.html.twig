@@ -1,11 +1,8 @@
-<?php 
-    use \Blog\Controller\AuthorController;
-    
-    require_once(ROOT_PATH. '/Templates/Header.phtml');
-?>
+{% extends 'layout/base.html.twig' %}
 
-
+{% block body %}
 <script >
+
     $(document).ready(function(){
         $("#login").on("click",function(event){
             // event.preventDefault();
@@ -44,5 +41,5 @@
     </form>
 </div>
 
-<?php require_once (ROOT_PATH.'/Templates/Footer.phtml'); ?>
+{% endblock %}
 

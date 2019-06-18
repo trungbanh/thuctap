@@ -1,6 +1,3 @@
-<?php 
-    use \Blog\App\Session;
-?>
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap&subset=vietnamese" rel="stylesheet">
@@ -19,22 +16,19 @@
                     </ul>
                 </div>
             <div class='sign'>  
-                <?php 
-                $user = $session->getUser();
+                {% set user = App.session.getUser() %}
 
-                // die(var_dump($uesr));
-                 if ($user instanceof \Blog\Model\AuthorModel){  ?>
-                        <span class="user">
-                            <?php 
-                                echo "<a id='username' href='/author/update' >". $user->nickname ."</a>";
-                            ?>
-                        </span>
-                        <span id="logout">
-                            <a href='/author/logout' >đăng xuất  </a>
-                        </span>
-                    <?php } else { ?>
-                        <a href="/author"> <span> Đăng nhập </span> </a>
-                    <?php }?>
+                {# {{dump(user)}} #}
+                {% if user %}
+                    <span class="user">
+                            <a id='username' href='/author/update' > {{ user.getNickname() }}</a>
+                    </span>
+                    <span id="logout">
+                        <a href='/author/logout' >đăng xuất  </a>
+                    </span>
+                {% else %}
+                    <a href="/author"> <span> Đăng nhập </span> </a>
+                {% endif %}
             </div>
         </div>
     </header>

@@ -96,7 +96,7 @@ use Twig\Environment;
             $repo = new BlogReponsitory();
             $list = $repo->getList();
             if (!empty($list)) {
-                return render('/View/layout/index.php',array('list'=> $list));
+                return render('/Blog/index.html.twig',array('list'=> $list,'session'=>App::session()->getUser()));
             } else {
                 return false;
             }
@@ -113,7 +113,7 @@ use Twig\Environment;
             $repo = new BlogReponsitory();
             $list = $repo->getDetail($id);
             if (!empty($list)) {
-                return render('/View/layout/detail.php',array('list'=> $list));
+                return render('/Blog/detail.html.twig',array('list'=> $list,'session'=>App::session()->getUser()));
             } else {
                 return false;
             }
@@ -124,7 +124,7 @@ use Twig\Environment;
             $repo = new BlogReponsitory();
             $list = $repo->getDetail($id);
             if (!empty($list)) {
-                return render('/View/layout/update.php',array('list'=> $list));
+                return render('/Blog/update.html.twig',array('list'=> $list,'session'=>App::session()->getUser()));
             } else {
                 return false;
             }
