@@ -6,19 +6,24 @@ use \Blog\Controller\AuthorController;
 use \Blog\App\Request;
 
 class Request {
-    protected $path_info =      array() ;
-    protected $path =           array();
+    protected $path_info = array() ;
+    protected $path = array();
     protected $controllerName = '';
     protected $input = array();
     protected $all_input = array();
     protected $allquery = array();
     protected $session = array();
 
-
     public function __construct() {
-        $this->path_info=      $_SERVER['PATH_INFO'];
-        $this->path =          explode('/', $this->path_info);
-        $this->controllerName =$this->path[1];
+        if (isset($_SERVER['PATH_INFO'])) {
+            $this->path_info= $_SERVER['PATH_INFO'];
+            $this->path =          explode('/', $this->path_info);
+        } else {
+            $this->path_info= '/';
+            $this->path ='';
+        }
+        
+        // $this->controllerName =$this->path[1];
         $this->parse_raw_http_request($this->input);
         if ( isset($_SESSION)) {
             $this->session = $_SESSION;

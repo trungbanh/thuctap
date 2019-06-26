@@ -50,40 +50,43 @@ class __TwigTemplate_8adde68366b788fbf82c117fa12555167afd312cf15556cc1489965b585
         echo "
 ";
         // line 5
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["list"] ?? null));
-        foreach ($context['_seq'] as $context["_key"] => $context["blog"]) {
-            // line 6
-            echo "
+        $context["blog"] = ($context["detail"] ?? null);
+        // line 6
+        echo "
 ";
-            // line 7
-            if ((twig_get_attribute($this->env, $this->source, ($context["session"] ?? null), "getIdAuthor", [], "method", false, false, false, 7) != twig_get_attribute($this->env, $this->source, $context["blog"], "getAuthor", [], "method", false, false, false, 7))) {
-                // line 8
-                echo "    <h1 style='color:red;'> bạn không có quyền tác động bài viết này </h1>
+        // line 7
+        $context["user"] = twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, ($context["App"] ?? null), "session", [], "any", false, false, false, 7), "getUser", [], "method", false, false, false, 7);
+        // line 8
+        echo "
 ";
-            } else {
-                // line 9
-                echo "  
+        // line 9
+        if ((twig_get_attribute($this->env, $this->source, ($context["user"] ?? null), "getIdAuthor", [], "method", false, false, false, 9) != twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getAuthor", [], "method", false, false, false, 9))) {
+            // line 10
+            echo "    <h1 style='color:red;'> bạn không có quyền tác động bài viết này </h1>
+";
+        } else {
+            // line 11
+            echo "  
 <div class='updatebox row'>
     <div class='form'>
         <form action='/blog' method=\"POST\">
             <label for=\"id\">id bài viết hiện tại:  ";
-                // line 13
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["blog"], "getId", [], "method", false, false, false, 13), "html", null, true);
-                echo "  </label>
+            // line 15
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getId", [], "method", false, false, false, 15), "html", null, true);
+            echo "  </label>
             <input name=\"id\" value= ";
-                // line 14
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["blog"], "getId", [], "method", false, false, false, 14), "html", null, true);
-                echo " type=hidden  /> <br/>
+            // line 16
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getId", [], "method", false, false, false, 16), "html", null, true);
+            echo " type=hidden  /> <br/>
             <input name=\"idAuthor\" value= ";
-                // line 15
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["blog"], "getAuthor", [], "method", false, false, false, 15), "html", null, true);
-                echo " type=hidden  /> <br/>
+            // line 17
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getAuthor", [], "method", false, false, false, 17), "html", null, true);
+            echo " type=hidden  /> <br/>
             <label for=\"title\">tên bài viết :</label>
-            <textarea type=\"text\" name=\"title\" id=\"title\" rows=\"2\" cols=\"35\" > ";
-                // line 17
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["blog"], "getTitle", [], "method", false, false, false, 17), "html", null, true);
-                echo " </textarea> <br> <br>
+            <textarea type=\"text\" name=\"title\" id=\"title\" rows=\"2\" cols=\"35\" >";
+            // line 19
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getTitle", [], "method", false, false, false, 19), "html", null, true);
+            echo "</textarea><br><br>
             <input type=\"submit\" value='cập nhập tên ' name='updateblog'/>
         </form> 
     </div>
@@ -91,37 +94,31 @@ class __TwigTemplate_8adde68366b788fbf82c117fa12555167afd312cf15556cc1489965b585
     <div class='form'>
         <form action='/blog' method=\"POST\">
             <label for=\"id\">id bài viết hiện tại:  ";
-                // line 24
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["blog"], "getId", [], "method", false, false, false, 24), "html", null, true);
-                echo " </label>
+            // line 26
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getId", [], "method", false, false, false, 26), "html", null, true);
+            echo " </label>
             <input name=\"id\" value= ";
-                // line 25
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["blog"], "getId", [], "method", false, false, false, 25), "html", null, true);
-                echo " type=hidden  /> <br/>
+            // line 27
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getId", [], "method", false, false, false, 27), "html", null, true);
+            echo " type=hidden  /> <br/>
             <input name=\"idAuthor\" value= ";
-                // line 26
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["blog"], "getAuthor", [], "method", false, false, false, 26), "html", null, true);
-                echo " type=hidden  /> <br/>
-            <textarea type=text name=\"content\" id=\"nodung\"  rows=\"30\" cols=\"35\"> ";
-                // line 27
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["blog"], "getContent", [], "method", false, false, false, 27), "html", null, true);
-                echo "</textarea><br><br>
+            // line 28
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getAuthor", [], "method", false, false, false, 28), "html", null, true);
+            echo " type=hidden  /><br/>
+            <textarea type=text name=\"content\" id=\"nodung\"  rows=\"30\" cols=\"35\">";
+            // line 29
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["blog"] ?? null), "getContent", [], "method", false, false, false, 29), "html", null, true);
+            echo "</textarea><br><br>
             <input type=\"submit\" value='cập nhập nội dung' name='updateblog'/>
         </form> 
     </div>
 </div>
 
 ";
-            }
-            // line 34
-            echo "
-";
         }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['blog'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
         // line 36
         echo "
+
 ";
     }
 
@@ -137,7 +134,7 @@ class __TwigTemplate_8adde68366b788fbf82c117fa12555167afd312cf15556cc1489965b585
 
     public function getDebugInfo()
     {
-        return array (  124 => 36,  117 => 34,  107 => 27,  103 => 26,  99 => 25,  95 => 24,  85 => 17,  80 => 15,  76 => 14,  72 => 13,  66 => 9,  62 => 8,  60 => 7,  57 => 6,  53 => 5,  50 => 4,  46 => 3,  35 => 1,);
+        return array (  120 => 36,  110 => 29,  106 => 28,  102 => 27,  98 => 26,  88 => 19,  83 => 17,  79 => 16,  75 => 15,  69 => 11,  65 => 10,  63 => 9,  60 => 8,  58 => 7,  55 => 6,  53 => 5,  50 => 4,  46 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -146,9 +143,11 @@ class __TwigTemplate_8adde68366b788fbf82c117fa12555167afd312cf15556cc1489965b585
 
 {% block body %}
 
-{% for blog in list %}
+{% set blog = detail %}
 
-{% if ( session.getIdAuthor() != blog.getAuthor() ) %}
+{% set user = App.session.getUser() %}
+
+{% if ( user.getIdAuthor() != blog.getAuthor() ) %}
     <h1 style='color:red;'> bạn không có quyền tác động bài viết này </h1>
 {% else %}  
 <div class='updatebox row'>
@@ -158,7 +157,7 @@ class __TwigTemplate_8adde68366b788fbf82c117fa12555167afd312cf15556cc1489965b585
             <input name=\"id\" value= {{blog.getId()}} type=hidden  /> <br/>
             <input name=\"idAuthor\" value= {{ blog.getAuthor()}} type=hidden  /> <br/>
             <label for=\"title\">tên bài viết :</label>
-            <textarea type=\"text\" name=\"title\" id=\"title\" rows=\"2\" cols=\"35\" > {{ blog.getTitle()}} </textarea> <br> <br>
+            <textarea type=\"text\" name=\"title\" id=\"title\" rows=\"2\" cols=\"35\" >{{ blog.getTitle()}}</textarea><br><br>
             <input type=\"submit\" value='cập nhập tên ' name='updateblog'/>
         </form> 
     </div>
@@ -167,8 +166,8 @@ class __TwigTemplate_8adde68366b788fbf82c117fa12555167afd312cf15556cc1489965b585
         <form action='/blog' method=\"POST\">
             <label for=\"id\">id bài viết hiện tại:  {{blog.getId()}} </label>
             <input name=\"id\" value= {{blog.getId()}} type=hidden  /> <br/>
-            <input name=\"idAuthor\" value= {{ blog.getAuthor()}} type=hidden  /> <br/>
-            <textarea type=text name=\"content\" id=\"nodung\"  rows=\"30\" cols=\"35\"> {{ blog.getContent()}}</textarea><br><br>
+            <input name=\"idAuthor\" value= {{ blog.getAuthor()}} type=hidden  /><br/>
+            <textarea type=text name=\"content\" id=\"nodung\"  rows=\"30\" cols=\"35\">{{ blog.getContent()}}</textarea><br><br>
             <input type=\"submit\" value='cập nhập nội dung' name='updateblog'/>
         </form> 
     </div>
@@ -176,7 +175,6 @@ class __TwigTemplate_8adde68366b788fbf82c117fa12555167afd312cf15556cc1489965b585
 
 {% endif %}
 
-{% endfor %}
 
 {% endblock %}", "/Blog/update.html.twig", "/home/dr-trange/Code/PHP/blog/View/Blog/update.html.twig");
     }

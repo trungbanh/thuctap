@@ -12,7 +12,7 @@ use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
 
-/* layout/base.html.twig */
+/* /layout/base.html.twig */
 class __TwigTemplate_568c1ec11096278a00083fa09cb84657674db167ab7f48f3cc00bdcc17326943 extends \Twig\Template
 {
     private $source;
@@ -46,29 +46,23 @@ class __TwigTemplate_568c1ec11096278a00083fa09cb84657674db167ab7f48f3cc00bdcc173
         $this->displayBlock('title', $context, $blocks);
         echo "</title>
 </head>
-<header>
-    ";
-        // line 9
-        $this->loadTemplate("layout/Header.html.twig", "layout/base.html.twig", 9)->display($context);
-        // line 10
-        echo "</header>
-<body>
 
 ";
-        // line 13
-        $this->displayBlock('body', $context, $blocks);
-        // line 14
+        // line 9
+        $this->loadTemplate("layout/Header.html.twig", "/layout/base.html.twig", 9)->display($context);
+        // line 10
         echo "
-</body>
-
-<footer>
     ";
-        // line 18
-        $this->loadTemplate("layout/Footer.html.twig", "layout/base.html.twig", 18)->display($context);
-        // line 19
-        echo "</footer>
+        // line 11
+        $this->displayBlock('body', $context, $blocks);
+        // line 12
+        echo "
 
-</html>";
+";
+        // line 14
+        $this->loadTemplate("layout/Footer.html.twig", "/layout/base.html.twig", 14)->display($context);
+        // line 15
+        echo "</html>";
     }
 
     // line 6
@@ -77,7 +71,7 @@ class __TwigTemplate_568c1ec11096278a00083fa09cb84657674db167ab7f48f3cc00bdcc173
         $macros = $this->macros;
     }
 
-    // line 13
+    // line 11
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -85,7 +79,7 @@ class __TwigTemplate_568c1ec11096278a00083fa09cb84657674db167ab7f48f3cc00bdcc173
 
     public function getTemplateName()
     {
-        return "layout/base.html.twig";
+        return "/layout/base.html.twig";
     }
 
     public function isTraitable()
@@ -95,7 +89,7 @@ class __TwigTemplate_568c1ec11096278a00083fa09cb84657674db167ab7f48f3cc00bdcc173
 
     public function getDebugInfo()
     {
-        return array (  81 => 13,  75 => 6,  69 => 19,  67 => 18,  61 => 14,  59 => 13,  54 => 10,  52 => 9,  46 => 6,  39 => 1,);
+        return array (  75 => 11,  69 => 6,  65 => 15,  63 => 14,  59 => 12,  57 => 11,  54 => 10,  52 => 9,  46 => 6,  39 => 1,);
     }
 
     public function getSourceContext()
@@ -107,19 +101,13 @@ class __TwigTemplate_568c1ec11096278a00083fa09cb84657674db167ab7f48f3cc00bdcc173
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <title>{% block title %}{% endblock %}</title>
 </head>
-<header>
-    {% include 'layout/Header.html.twig' %}
-</header>
-<body>
 
-{% block body %}{% endblock %}
+{% include 'layout/Header.html.twig' %}
 
-</body>
+    {% block body %}{% endblock %}
 
-<footer>
-    {% include 'layout/Footer.html.twig' %}
-</footer>
 
-</html>", "layout/base.html.twig", "/home/dr-trange/Code/PHP/blog/View/layout/base.html.twig");
+{% include 'layout/Footer.html.twig' %}
+</html>", "/layout/base.html.twig", "/home/dr-trange/Code/PHP/blog/View/layout/base.html.twig");
     }
 }

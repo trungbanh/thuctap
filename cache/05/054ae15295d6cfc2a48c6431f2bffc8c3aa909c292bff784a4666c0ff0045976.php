@@ -35,13 +35,12 @@ class __TwigTemplate_ca91db3ce28771d0c56af8f8a6db242eb4fb527e78b0c32312c1e579b6c
         $macros = $this->macros;
         // line 1
         echo "
-  <div class=\"push\"></div>
   </div>
 
   <footer class=\"footer\">
     W3School hân hạnh tài trợ footer này  
   </footer>
-</body>
+  </body>
 </html>";
     }
 
@@ -58,13 +57,12 @@ class __TwigTemplate_ca91db3ce28771d0c56af8f8a6db242eb4fb527e78b0c32312c1e579b6c
     public function getSourceContext()
     {
         return new Source("
-  <div class=\"push\"></div>
   </div>
 
   <footer class=\"footer\">
     W3School hân hạnh tài trợ footer này  
   </footer>
-</body>
+  </body>
 </html>", "layout/Footer.html.twig", "/home/dr-trange/Code/PHP/blog/View/layout/Footer.html.twig");
     }
 }

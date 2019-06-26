@@ -11,7 +11,6 @@ class Boots {
     }
 
     public function run() {
-        session_start();
         $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
             require_once(ROOT_PATH."/config/Router.php");
         });

@@ -11,8 +11,10 @@
 
 class AuthorReponsitory extends \Blog\data\MysqlDB {
 
+    /**
+     * @return null
+     */
     public function detail ($id) {
-
         $sql    = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns(['nickname','mail']);
@@ -20,51 +22,47 @@ class AuthorReponsitory extends \Blog\data\MysqlDB {
         $statement = $sql->prepareStatementForSqlObject($select);
         $results = $statement->execute();
         if ($results) {
-            foreach($results as $result):
+            foreach($results as $result) {
                 return $result;
-            endforeach;
-        } else {
-            return false;
+            }
         }
 
-        // $stmt = $this->adapter->prepare("SELECT `nickname`, `mail` FROM Author WHERE id= ?");
-        // $stmt->bind_param('i',$id);
-        // $result = $stmt->execute();
-        // $stmt->close();
-        // if ($result) {
-        //     return $result;
-        // } else {
-        //     return false;
-        // }
+        return null;
     }
 
     public function updateDetail($detail) {
+        // die(var_dump($detail));
         $sql    = new Sql($this->adapter);
         $update = $sql->update();
         $update->table('Author');
-        $update->set(['nickname'=>$detail->nickname,'mail'=>$detail->mail]);
-        $update->where(['idAuthor='.$detail->id_author]);
+        $update->set(['nickname' => $detail->getNickname(), 'mail' => $detail->getMail(), 'passwork'=>  $detail->getPassword()]);
+        $update->where(['idAuthor=' . $detail->getIdAuthor()]);
         $statement = $sql->prepareStatementForSqlObject($update);
         $results = $statement->execute();
         if ($results) {
             return true;
-        } else {
-            return false;
         }
-
+        
+        return false;
     }
 
+    /**
+     * return null|array|
+     */
     public function all () {
         $stmt = $this->adapter->query("SELECT `nickname`, `idAuthor` FROM Author");
         $result = $stmt->execute();
         $stmt->close();
         if ($result) {
             return $result;
-        } else {
-            return false;
         }
+
+        return null;
     }
 
+    /**
+     * @return boolean
+     */
     public function insert(AuthorModel $author) {
         $name = $author->nickName;
         $mail = $author->mail;
@@ -78,23 +76,15 @@ class AuthorReponsitory extends \Blog\data\MysqlDB {
         $results = $statement->execute();
         if ($results) {
             return true;
-        } else {
-            return null;
         }
-    
 
-        // $stmt = $this->adapter->prepare("INSERT INTO Author (`nickname`, `mail`, `passwork`) VALUES (?,?,?)");
-        // $stmt->bind_param("sss",$name,$mail,$pass);
-        // $result = $stmt->execute();
-        // $stmt->close();
-        // if ($result) {
-        //     return $this->theLastId();
-        // } else {
-        //     return false;
-        // }
+        return false;
     }
 
-    public function login ($mail,$pass) {
+    /**
+     * @return null|AuthorModel
+     */
+    public function login ($mail, $pass) {
         $sql    = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns(['idAuthor','passwork','nickname','mail']);
@@ -111,11 +101,10 @@ class AuthorReponsitory extends \Blog\data\MysqlDB {
                         return $re;
                     }
                 }
-                return null;
-            } else {
-                return null;
             }
         }
+
+        return null;
     }
 
     public function checkPass ($id,$pass) {
@@ -134,23 +123,30 @@ class AuthorReponsitory extends \Blog\data\MysqlDB {
                         return $re;
                     }
                 }
-                return null;
-            } else {
-                return null;
             }
         }
+        return null;
     }
 
     public function checkMail($mail) {
-
-        // $stmt = $this->adapter->prepare("SELECT idAuthor FROM Author WHERE mail= ?;");
-        // $stmt->bind_param("s", $mail);
-        // $stmt->execute();
-        // $result = $stmt->get_result();
-        // $stmt->close();
-        // if ($result->num_rows > 0){
-        //     return true ;
-        // }
-        // return false;
+        $sql    = new Sql($this->adapter);
+        $select = $sql->select();
+        $select->from('Author');
+        
+        $select->where("mail='".$mail."'");
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        if ($results instanceof ResultInterface && $results->isQueryResult()) {
+            $resultSet = new HydratingResultSet(new ClassMethodsHydrator, new AuthorModel);
+            $resultSet->initialize($results);
+            foreach ($resultSet as $re){
+                if ($re) {
+                    return true;
+                
+                }
+            }
+            
+        }
+        return false;
     }
 }

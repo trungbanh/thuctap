@@ -4,26 +4,25 @@ use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
 
-
 $loader = new \Twig\Loader\FilesystemLoader(ROOT_PATH . '/View/');
 $twig = new \Twig\Environment($loader, [
-    'cache' => ROOT_PATH . '/cache/',
-    'debug' => true,
-
-]);
+                        'cache' => ROOT_PATH . '/cache/',
+                        'debug' => true,
+                    ]);
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 $twig->addExtension(new \Blog\App\Twig\TwigExtension());
 
+function response() {
+    $response = new \Blog\App\Respones();
 
-
-function move_on($path){
-    header('Location:'.$path);
+    return $response;
 }
 
-function render($path, $var = array()){
-    global $loader,$twig;
-    // $template = $twig->load($path);
+function redirects(){
+    $response = new \Blog\App\Respones();
 
-    echo($twig->render($path, $var));
+    return $response;
 }
+
 ?>
+

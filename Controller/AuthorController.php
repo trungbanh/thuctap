@@ -1,16 +1,17 @@
 <?php 
     namespace Blog\Controller;
 
+    use Rakit\Validation\Validator;
+
+
     use Blog\Model\AuthorModel;
     use Blog\Reponsitory\AuthorReponsitory;
     use \Blog\App\Request;
     use \Blog\App\Session;
     use \Blog\App\App;
+    use \Blog\App\Respones;
 
     class AuthorController{
-
-        public function __destruct(){
-        }
 
         public function all() {
             $repo = new AuthorReponsitory();
@@ -19,96 +20,148 @@
 
         public function updateDetail (Request $request) {
             // idAuthor, nickname, mail, password
+
+            $result = array();
+            $validator = new Validator();
+            $validation = $validator->make($request->input(), [
+                'nickname' => 'required',
+                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung.com)\z/',
+                'passold' => 'required|min:5'
+            ]);
+            $validation->setAliases([
+                'nickname' => 'Name',
+                'mail' => 'Mail',
+                'passold' => 'Password'
+            ]);
+            $validation->validate();
+
+            if ($validation->fails()) {
+                // handling errors
+                $errors = $validation->errors();
+                $result = array("error"=>$errors->firstOfAll());
+                return response()->json($result); 
+            }
+
             $idAuthor = $request->input('idAuthor');
             $name = $request->input('nickname');
             $mail = $request->input('mail');
             $pass = $request->input('passold');
             $passnew = $request->input('passnew');
 
-            if (true || empty($mail) || empty($pass) || empty($name)){
-                return "<h3>lỗi để trống</h3>";
-            }
-            $regex = "/@trung.com/i";
-            $success = preg_match($regex,$mail,$match);
-            if (!$success) {
-                return "<h3> mail chi cho phep @trung.com </h3>" ;
-            }
             $hashpassold = AuthorModel::hashpass($pass);
             $repo = new AuthorReponsitory();
             $user = $repo->checkPass($idAuthor, $hashpassold);
             if ($user == null ) {
-                return "<h3>sai mail hoặc mật khẩu</h3>" ;
+                $result=array('error'=> array('passold' => 'sai mật khẩu cũ'));
+                return response()->json($result);
             }
             if (!empty($passnew)){
-                $passnew = AuthorModel::hashpass($passnew);
                 $user->setPassword($passnew);
             }
-            $user->nickName = $name;
-            $user->mail = $mail;
+            $user->setNickname($name);
+            $user->setMail($mail);
+
             $result = $repo->updateDetail($user);
             if ($result !== null) {
-                return render('detailuser.html.twig',array('session'=>App::session()->getUser()));
+                App::session()->setUser($user);
+                $result = array('data'=>true);
+                return response()->json($result);
             }
-            return "<h3>update thất bại</h3>";
+
+            $result = array('error'=> array( 'status' =>'cập nhập thất bại'));
+            return response()->json($result);
         }
 
         public function insert(Request $request) {
             // $name, $mail, $pass
-            $name = $request->input('name');
-            $mail = $request->input('mail');
-            $pass = $request->input('pass');
-            if (empty($name) || empty($mail) || empty($pass)){
-                return false;
-            }
-            $regex = "/@trung.com/i";
-            $success = preg_match($regex,$mail,$match);
-            if ($success) {
-                $repo = new AuthorReponsitory();
-                if  ($repo->checkMail($mail)) {
-                    return false;
-                }
-                $hashpass = hash('md5',$pass,TRUE);
-                $author = new AuthorModel(array('nickName'=>$name,'mail'=>$mail,'password'=>$hashpass));
-                $result = $repo->insert($author);
-                return $result;
+            $result = array();
+            $validator = new Validator;
+
+            $validation = $validator->make($request->input(), [
+                'nickname' => 'required',
+                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung.com)\z/',
+                'pass' => 'required|min:6'
+            ]);
+            $validation->setAliases([
+                'nickname' => 'Name',
+                'mail' => 'Mail',
+                'pass' => 'Password'
+            ]);
+            $validation->validate();
+
+            if ($validation->fails()) {
+                // handling errors
+                $errors = $validation->errors();
+                $result = array('error'=>$errors->firstOfAll());
+                return response()->json($result) ;
             }
 
-            return false;
+            $name = $request->input('nickname');
+            $mail = $request->input('mail');
+            $pass = $request->input('pass');
+            
+            $repo = new AuthorReponsitory();
+            if  ($repo->checkMail($mail)) {
+                $result = array('error'=>array('mail'=>'mail đã được sử dụng'));
+                return response()->json($result);
+            }
+            $hashpass = AuthorModel::hashpass($pass);
+            $author = new AuthorModel(array('nickName'=>$name,'mail'=>$mail,'password'=>$hashpass));
+            // die( var_dump($author));
+            $resu = $repo->insert($author);
+
+            $result = array('data'=>true);
+            return response()->json($result);
         }
 
         public function login(Request $request) {
 
+            $result = array();
+            $validator = new Validator();
+            $validation = $validator->make($request->input(), [
+                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung.com)$/',
+                'pass' => 'required'
+            ]);
+            $validation->setAliases([
+                'mail' => 'Mail',
+                'pass' => 'Password'
+            ]);
+            $validation->validate();
+
+            if ($validation->fails()) {
+                $errors = $validation->errors();
+                $result = array('error'=>$errors->firstOfAll());
+                return response()->json($result) ;
+            }
+
             $mail = $request->input('mail');
             $pass = $request->input('pass');
-            if (empty($mail) || empty($pass)){
-                return "loi de trong";
+
+            $hashpass = AuthorModel::hashpass($pass);
+            $repo = new AuthorReponsitory();
+            $user = $repo->login($mail, $hashpass);
+
+            if ($user !== null) {
+                App::session()->setUser($user);
+                $result = array('data'=>true);
+                return response()->json($result);
             }
-            $regex = "/@trung.com/i";
-            $success = preg_match($regex,$mail,$match);
-            if ($success) {
-                $hashpass = hash('md5',$pass,TRUE);
-                $repo = new AuthorReponsitory();
-                $user = $repo->login($mail, $hashpass);
-                if ($user !== null ) {
-                    $_SESSION['user'] = $user;
-                    return \move_on('/blogs');
-                }
-                
-            }
+
+            $result = array('error'=>false);
+            return response()->json($result) ;
         }
 
         public function logout() {
-            unset($_SESSION['user']);
-            session_destroy();
-            \move_on('/blogs');
+            App::session()->destroy();
+            redirects()->path('/blogs');
         }
 
         public function logon () {
-            return render('User/logon.html.twig');
+            return response()->view('User/logon.html.twig');
         }
 
         public function getUpdateLayout() {
-            return render('User/detailuser.html.twig');
+            return response()->view('User/detailuser.html.twig');
         }
     }
 ?>

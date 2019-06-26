@@ -29,13 +29,11 @@ use Twig\Environment;
                 $repo = new BlogReponsitory();
                 $result = $repo->insert($baiviet);
                 if ($result) {
-                    return move_on('/blog/'.$result['id']);
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
+                    return redirects()->path('/blog/'.$result['id']);
+                } 
+            } 
+            
+            return false;
         }
 
         /**
@@ -43,28 +41,30 @@ use Twig\Environment;
          * one of element can absent not both 
          *  
          * @return boolean 
-         */        
+         */
         public function update(Request $request) {
             $fields = array('title', 'content');
             $data = $request->input();
-            if ($request->input('idAuthor') != strval(App::session()->getUser()->id_author)) {
-                return \move_on('/blog/'.$data['id']);
+            if ($data['idAuthor'] != strval(App::session()->getUser()->id_author)) {
+                return redirects()->path('/blog/'.$data['id']);
             }
 
+            // dong nay co nghia 
+            // khong nen xoa 
             foreach ($fields as $key) {
-                if (empty($data[$key])){
-                    continue;
-                } else {
+                if (!empty($data[$key])){
                     break;
+                } else {
+                    continue;
                 }
                 return false;
             }
             $repo = new BlogReponsitory();
             $result = $repo->update($data);
             if ($result) {
-                return \move_on('/blog/'.$data['id']);
+                return redirects()->path('/blog/'.$data['id']);
             } else {
-                return \move_on('/blog/'.$data['id']);
+                return redirects()->path('/blog/'.$data['id']);
             }
         }
 
@@ -77,13 +77,13 @@ use Twig\Environment;
             if ($request->input('idAuthor') != strval(App::session()->getUser()->id_author)) {
                 return null;
             }
-            $id = $request->input('id');
+
             $repo = new BlogReponsitory();
-            $result = $repo->delete($id);
+            $result = $repo->delete($request->input('id'));
             if ($result) {
-                return \move_on(' /blogs');
+                return redirects()->path(' /blogs');
             } else {
-                return \move_on(' /blogs');
+                return redirects()->path(' /blogs');
             }
         }
 
@@ -95,11 +95,8 @@ use Twig\Environment;
         public function all() {
             $repo = new BlogReponsitory();
             $list = $repo->getList();
-            if (!empty($list)) {
-                return render('/Blog/index.html.twig',array('list'=> $list,'session'=>App::session()->getUser()));
-            } else {
-                return false;
-            }
+            
+            return response()->view('/Blog/index.html.twig', array('list'=> $list));
         }
 
         /**
@@ -108,26 +105,21 @@ use Twig\Environment;
          * @return array BlogModel or false 
          */
         function detail(Request $request) {
-            $id = $request->getQueryByKey('id');
-
             $repo = new BlogReponsitory();
-            $list = $repo->getDetail($id);
-            if (!empty($list)) {
-                return render('/Blog/detail.html.twig',array('list'=> $list,'session'=>App::session()->getUser()));
-            } else {
-                return false;
-            }
+            $detail = $repo->getDetail($request->getQueryByKey('id'));
+
+            return response()->view('/Blog/detail.html.twig',array('detail'=> $detail));
         }
 
         function getUpdateLayout (Request $request) {
-            $id = $request->getQueryByKey('id');
             $repo = new BlogReponsitory();
-            $list = $repo->getDetail($id);
-            if (!empty($list)) {
-                return render('/Blog/update.html.twig',array('list'=> $list,'session'=>App::session()->getUser()));
-            } else {
-                return false;
-            }
+            $detail = $repo->getDetail($request->getQueryByKey('id'));
+
+            return response()->view('/Blog/update.html.twig',array('detail'=> $detail));
+        }
+
+        function getPaper() {
+            return response()->view('/Blog/paper.html.twig');
         }
     }
 ?>  

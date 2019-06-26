@@ -40,20 +40,9 @@ class BlogReponsitory extends MysqlDB {
         $result = $statement->execute();
         if ($result) {
             return true;
-        } else {
-            return false;
-        }
+        } 
 
-        // $stmt = $this->conn->prepare("INSERT INTO MyBlog (Title, Content, author) VALUES (?,?,?)");
-        // $stmt->bind_param("ssi",$title,$content,$author);
-        // $stmt->execute();
-        // $result = $stmt->get_result();
-
-        // if ($result) {
-        //     return $this->theLastId();
-        // } else {
-        //     return false;
-        // }
+        return false;
     }
     /**
      * Update Blog 
@@ -82,50 +71,9 @@ class BlogReponsitory extends MysqlDB {
         $result = $statement->execute();
         if ($result) {
             return true;
-        } else {
-            return false;
         }
 
-        // $updateSql = '';
-        // $typeParams = '';
-        // $bindParams = array();
-        // $valueParams = array();
-        // if (!empty($data)){
-        //     $fields = array('title', 'content');
-        //     if (isset($data['title'])){
-        //         $valueParams[] = " Title = ?";
-        //         $typeParams .= 's';
-        //         $bindParams[] = &$data['title'];
-        //     }
-        //     if (isset($data['content'])) {
-        //         $valueParams[] = " Content = ?";
-        //         $typeParams .= 's';
-        //         $bindParams[] = &$data['content'];
-        //     }
-        // }
-        // if (!empty($valueParams)) {
-        //     $updateSql = implode(', ', $valueParams);
-        // }
-        // $id = $data['id'];
-        // $typeParams .= 'i';
-        // $bindParams[] = &$id;
-        // if (empty($updateSql)) {
-        //     return false;
-        // }
-        // $rawSQL = "UPDATE MyBlog SET {$updateSql} WHERE id = ?";
-        // $stmt = $this->conn->prepare($rawSQL);
-        // array_unshift($bindParams, $typeParams);
-        // call_user_func_array(array($stmt,'bind_param'),$bindParams);
-        // if (!$stmt->execute()) {
-        //     die(var_dump($stmt->error));
-        // } 
-        // $result = $stmt->get_result();
-       
-        // if ($result) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
+        return false;
     }
 
     /**
@@ -144,18 +92,9 @@ class BlogReponsitory extends MysqlDB {
         $result = $statement->execute();
         if ($result) {
             return true;
-        } else {
-            return false;
         }
-        // $stmt = $this->conn->prepare("DELETE FROM MyBlog WHERE id =?;");
-        // $stmt->bind_param("i",$id);
-        // $stmt->execute();
-        // $result = $stmt->get_result();
-        // if ($result) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
+        
+        return false;
     }
 
     /**
@@ -176,11 +115,10 @@ class BlogReponsitory extends MysqlDB {
             $resultSet->initialize($results);
             if ($resultSet) {
                 return $resultSet;
-            } else {
-                return null;
             }
         }
         
+        return null;
     }
     
     /**
@@ -201,10 +139,12 @@ class BlogReponsitory extends MysqlDB {
             $resultSet = new HydratingResultSet(new ClassMethodsHydrator, new BlogModel);
             $resultSet->initialize($results);
             if ($resultSet) {
-                return $resultSet;
-            } else {
-                return null;
-            }
+                foreach ( $resultSet as $result ) {
+                    return $result;
+                }
+            } 
         }
+
+        return null;
     }
 }

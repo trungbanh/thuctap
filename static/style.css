@@ -1,10 +1,5 @@
 @import './reset.css';
 
-
-.row {
-    display: flex;
-}
-
 .container {
     color: whitesmoke;
     background-color: #ffffff;
@@ -16,38 +11,29 @@
     max-width: 200dpi;
     margin: auto;
     padding: 20px;
-    width: 40em;
-
 }
 
-.body {
-    color: black;
-    margin-left: 3em;
-    margin-right: 3em;
-    min-height: cal c(80vh - 70px);
-    flex: 80%;
+.card{
+    margin-bottom: 15px;
 }
 
-.card {
-    border: 1px solid #ccc;
+.card a {
+    color: #000;
+    border: 1px solid rgb(241, 241, 241);
     border-radius : 3px;
     display:inline-block;
-    width: 10em;
-    height: 8em;
-    background-color:whitesmoke;
-    padding: 1em;
-    margin: 1em;
+    height: 10em;
     overflow:hidden;
+   padding: 5px;
 }
 
 .card:hover {
-    background-color:rgb(99, 99, 99);
+    background-color:rgb(230, 230, 230);
 }
 
 .slide {
-    flex: 20%;
     background-color: #f1f1f1;
-    padding: 20px;
+    padding: 5px;
 }
 
 .btn {
@@ -62,27 +48,33 @@
 
 .Title_web {
     color: rgb(252, 62, 36);
-    float: left;
-    padding: 10px 15px;
     font-size: 25px;
-    text-decoration: none;
     text-transform: uppercase;
 }
 
 .sign {
-    float: right;
-    height: 50px;
-    padding: 10px 20px;
-    vertical-align: middle;
-    line-height: 50px;
+    position: relative;
+    top: 3px;
+    height: calc(100% - 10px);
 }
 
-.login {
-    width: 50px;
+.sign #login{
+    color: #afafaf;
 }
 
 .form {
+    box-sizing: border-box;
+    margin-top: 20px;
+    padding: 10px;
+    position: relative;
+    left: 100px;
+    width: calc(100% - 200px);
+    border: 1px solid black;
     color: black;
+}
+
+.form + #target {
+    color :#ff802b;
 }
 
 .footer {
@@ -95,20 +87,18 @@
 
 .view_blog {
     height: 100%;
-    text-align: center;
+    text-align: left;
     color:cadetblue;
     background-color:#ffffff;
-    flex: 80%;
     background-color: white;
-    padding: 10px;
 }
 
-.card #title_blog {
-
-    text-align:center;
+#title_blog {
+    display:inline-block;
 }
 
 #author_blog {
+    color: #181818;
     text-align:right;
 }
 
@@ -118,47 +108,123 @@
 }
 
 .header{
-    background-color: #192e5e;
-    height: 50px;
+    background-color: #000000;
+    height: 30px;
     text-align: center;
     overflow: hidden;
 }
 
-.header a:link{
-    color: #c73131 ;
-}
+.navmenu ul * {
+    color: #e7eeff;
 
-.navmenu ul li{
-    float: left;
-    font-size: 1em;
-    padding: 15px 10px;
+    margin: 5px;
+    font-size: 15px;
     display: inline-block;
+    text-decoration: none;
 }
 
-li a {
-    text-decoration: none;
-    background-color: #0f0547;
-    padding: 15px 25px;
-}
+@media only screen and (max-width: 650px) {
+
+    .slide {
+        width: calc(100% - 100px);
+        width: 300px;
+        background-color: #f1f1f1;
+        padding: 2px;
+    }
+
+    .view_blog {
+        height: 100%;
+        text-align: left;
+        background-color:#ffffff;
+        background-color: white;
+    }
+
+    #logout {
+        visibility: hidden;
+    }
+
+    .Title_web {
+        color: rgb(252, 62, 36);
+        font-size: 15px;
+        text-transform: uppercase;
+        width: 70%;
+    }
+
+    .sign{
+        color: aliceblue;
+        width: 20%;
+    }
+    .navmenu ul * {
+      visibility: hidden;
+    }
+
+    
+  }
+
 
 #logout a{
     color: aliceblue;
     margin-left: 10px;
-    text-decoration: none;
 }
 
 #username {
+    color :#ff802b;
     text-decoration: none;
     font-size: 20px;
 }
 
 #header {
+    color: rgb(26, 26, 26);
     font-size: 30px;
+    margin: 10px 10px;
     border-bottom: rgb(190, 190, 190) 1px solid;
 }
 
 #contend {
-    font-size: 20px;
-    margin: 3px 3px;
+    color: rgb(49, 49, 49);
+    font-size: 15px;
+    margin: 10px 10px;
     border-bottom: rgb(190, 190, 190) 1px solid;
+}
+
+span {
+    padding: 2px;
+}
+
+.image {
+    height: 70%;
+    padding: 3px;
+}
+
+.form-group {
+    box-sizing: border-box;
+    padding: 3px;
+}
+
+.form-group * {
+    display: block;
+}
+
+input {
+    border: 1px solid rgb(240, 119, 6);;
+    border-radius: 4px;
+}
+
+input:focus {
+    border: 2px solid rgb(240, 119, 6);
+}
+
+.body-card {
+    display: inline-block;
+    max-height: 8em;
+    white-space: nowrap; 
+    width: 100%; 
+    overflow: hidden;
+    text-overflow:ellipsis;
+}
+
+
+.error {
+    display: block;
+    color: red;
 }

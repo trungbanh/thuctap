@@ -12,5 +12,4 @@ class App {
 
         return \call_user_func_array( array( App::$container, $name), $arguments);
     }
-
 }

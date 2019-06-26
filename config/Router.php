@@ -1,6 +1,8 @@
 <?php
 // Blog router 
+$r->addRoute('GET', '/', '\Blog\Controller\BlogController@all');
 $r->addRoute('GET', '/blogs', '\Blog\Controller\BlogController@all');
+$r->addRoute('GET', '/blog', '\Blog\Controller\BlogController@getPaper');
 $r->addRoute('GET', '/blog/{id:\d+}', '\Blog\Controller\BlogController@detail');
 $r->addRoute('GET', '/blog/update/{id:\d+}', '\Blog\Controller\BlogController@getUpdateLayout');
 $r->addRoute('POST', '/blog', '\Blog\Controller\BlogController@update');

@@ -14,8 +14,6 @@ class TwigExtension extends \Twig\Extension\AbstractExtension implements \Twig\E
             )
         ];
     }
-
-    // ...
 }
 
 

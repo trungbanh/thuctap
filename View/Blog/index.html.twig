@@ -3,58 +3,32 @@
 {% block title %} index {% endblock %}
 
 {% block body %}
-    <div class='row'>
-        <div class='slide'>
-
-        {% set user = App.session.getUser() %}
-
-            {% if (user) %}
-            <script >
-                $(document).ready(function(){
-                    $("#myform").on("submit",function(event){
-                        event.preventDefault();
-                        $.ajax({
-                            type       : 'PUT',
-                            url        : '/blog',
-                            data       : $("#myform").serialize(),
-                            success: function() {
-                                window.location="/blogs";
-                            }
-                        });
-                        return false;
-                    });
-                });
-            </script>
-
-            <div class='form'>
-                <form id="myform" enctype='multipart/form-data'> 
-                    <label for="title">tên bài viết :</label>
-                    <textarea type="text" name="title" id="title" rows="2" cols="35" > </textarea> <br> <br>
-                    <label for="content">nội dung bài viết :</label>
-                    <textarea type="text" name="content" id="content" rows="20" cols="35"> </textarea> <br> <br>
-                    <input type="submit" id='target' value="tạo bài viết mới"/>
-                </form> 
-            </div>
-            {% else %}
-            <div class='ads'>
-                <img src="./static/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
-                <p> quảng cáo  </p>
-            </div>
-            {% endif %}
-        </div>
-        <div class='body'>
-            {% for blog in list %}
-            <a href = {{ "/blog/"~ blog.getId() }} > 
-                <div class='card'>
-                    <p id="title_blog">{{ blog.getTitle() }}</p> <br/>
-                    <span id="author_blog"> 
+<div class='row'>
+    <div class="col-9">
+        {% for blog in list %}
+        <div class="col-4">
+            <div>
+                <a href = {{ "/blog/"~ blog.getId() }} > 
+                <div class="card col-12">
+                    <img class="image col-12" src='/static/download.jpeg' />
+                    <div class="body-card">
+                        <span id="title_blog">{{ blog.getTitle() }}</span> <br/>
+                        <span id="author_blog"> 
                             {{ "write by "~ blog.getAuthor() }}
-                    </span>
+                        </span>
+                    </div>
                 </div>  
-            </a>
-            {% endfor %}
+                </a>
+            </div>
         </div>
-
-        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="col-3">
+        <img class="image col-12 " src="/static/qc.jpeg" alt="quảng cáo"/>
+        <span> quảng cáo </span>
+    </div>
+</div>
+    
 
 {% endblock %}

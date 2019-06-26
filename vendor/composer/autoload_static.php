@@ -28,6 +28,10 @@ class ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
         ),
+        'R' => 
+        array (
+            'Rakit\\Validation\\' => 17,
+        ),
         'F' => 
         array (
             'FastRoute\\' => 10,
@@ -62,6 +66,10 @@ class ComposerStaticInit57d6ce3a6b20032db65e30ebdd3f5c22
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Rakit\\Validation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rakit/validation/src',
         ),
         'FastRoute\\' => 
         array (

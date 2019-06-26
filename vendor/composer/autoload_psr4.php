@@ -12,6 +12,7 @@ return array(
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
+    'Rakit\\Validation\\' => array($vendorDir . '/rakit/validation/src'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Blog\\' => array($baseDir . '/'),
 );
