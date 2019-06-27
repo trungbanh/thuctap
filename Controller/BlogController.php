@@ -31,8 +31,7 @@ use Twig\Environment;
                 if ($result) {
                     return redirects()->path('/blog/'.$result['id']);
                 } 
-            } 
-            
+            }
             return false;
         }
 

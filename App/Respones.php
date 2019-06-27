@@ -9,7 +9,6 @@ class Respones {
     public function __construct(){
         // 
         
-
     }
 
     public function json($data = array()) {

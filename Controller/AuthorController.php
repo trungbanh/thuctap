@@ -25,13 +25,15 @@
             $validator = new Validator();
             $validation = $validator->make($request->input(), [
                 'nickname' => 'required',
-                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung.com)\z/',
-                'passold' => 'required|min:5'
+                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung\.com)$/',
+                'passold' => 'required|min:5',
+                'passre' => 'same:passnew'
             ]);
             $validation->setAliases([
                 'nickname' => 'Name',
                 'mail' => 'Mail',
-                'passold' => 'Password'
+                'passold' => 'Password',
+                'passre' => 'Password'
             ]);
             $validation->validate();
 
@@ -55,6 +57,13 @@
                 $result=array('error'=> array('passold' => 'sai mật khẩu cũ'));
                 return response()->json($result);
             }
+
+            // neu mail moi khong thuoc id nay va da dc su dung boi id khac 
+            if (!$repo->checkMailWithId($idAuthor,$mail) && $repo->checkMail($mail) ){
+                $result = array('error' => array('mail'=> 'mail này đã được sử dụng'));
+                return \response()->json($result);
+            }
+
             if (!empty($passnew)){
                 $user->setPassword($passnew);
             }
@@ -79,18 +88,19 @@
 
             $validation = $validator->make($request->input(), [
                 'nickname' => 'required',
-                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung.com)\z/',
-                'pass' => 'required|min:6'
+                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@trung\.com$/',
+                'pass' => 'required|min:5',
+                'passre' => 'required|same:pass'
             ]);
             $validation->setAliases([
                 'nickname' => 'Name',
                 'mail' => 'Mail',
-                'pass' => 'Password'
+                'pass' => 'Password',
+                'passre' => 'Password'
             ]);
             $validation->validate();
 
             if ($validation->fails()) {
-                // handling errors
                 $errors = $validation->errors();
                 $result = array('error'=>$errors->firstOfAll());
                 return response()->json($result) ;
@@ -107,7 +117,6 @@
             }
             $hashpass = AuthorModel::hashpass($pass);
             $author = new AuthorModel(array('nickName'=>$name,'mail'=>$mail,'password'=>$hashpass));
-            // die( var_dump($author));
             $resu = $repo->insert($author);
 
             $result = array('data'=>true);
@@ -119,7 +128,7 @@
             $result = array();
             $validator = new Validator();
             $validation = $validator->make($request->input(), [
-                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung.com)$/',
+                'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@trung\.com$/',
                 'pass' => 'required'
             ]);
             $validation->setAliases([

@@ -99,6 +99,7 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
         var \$loginform = \$(\"#loginform\");
         \$loginform.validate({
             rules: {
+                
                 mail: {
                     required:true,
                     email:true,
@@ -126,6 +127,8 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
             rules: {
                 name: {
                     required:true,
+                    minlength:2,
+                    maxlenght:25,
                 },
                 mail: {
                     required:true,
@@ -144,6 +147,8 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
             messages: {
                 name: {
                     required:\"chưa nhập tên\",
+                    minlength:\"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự\",
+                    maxlenght:\"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự\",
                 },
                 mail: {
                     required:\"chưa nhập mail\",
@@ -171,23 +176,24 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
                     success: function(data) {
                         if (data) {
                             let result = JSON.parse(data);
-                            if (typeof result.error === 'object') {
-                                if (result.error.mail){
-                                    \$(\"#mail1e\").html(result.error.mail);
+                            if (typeof(result) === 'object') {
+                                if (typeof result.error === 'object') {
+                                    if (result.error.mail){
+                                        \$(\"#mail1e\").html(result.error.mail);
+                                    }
+                                    if (result.error.pass){
+                                        \$(\"#pass1e\").html(result.error.pass);
+                                    }
+                                } else if (result.data)  {
+                                    window.location=\"/blogs\";
+                                } else {
+                                    \$(\"#loginforme\").html(\"sai email hoặc mật khẩu\");
                                 }
-                                if (result.error.pass){
-                                    \$(\"#pass1e\").html(result.error.pass);
-                                }
-                            } else if (result.data)  {
-                                window.location=\"/blogs\";
-                            } else {
-                                \$(\"#loginforme\").html(\"sai email hoặc mật khẩu\");
                             }
                         }
                     }
                 });
             }
-            
             return false;
         });
 
@@ -202,16 +208,18 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
                     success: function(data) {
                         if (data) {
                             let result = JSON.parse(data);
-                            if (result.error) {
-                                if (result.error.nickname) {
-                                    \$(\"#nicknamee\").text(result.error.nickname);
-                                } else if (result.error.mail) {
-                                    \$(\"#maile\").text(result.error.mail);
+                            if (typeof(result) === 'object'){
+                                if (typeof(result.error) === 'object' )  {
+                                    if (result.error.nickname) {
+                                        \$(\"#nicknamee\").html(result.error.nickname);
+                                    } else if (result.error.mail) {
+                                        \$(\"#maile\").html(result.error.mail);
+                                    } else {
+                                        \$(\"#passe\").html(result.error.pass);
+                                    }
                                 } else {
-                                    \$(\"#passe\").text(result.error.pass);
+                                    window.location=\"/blogs\";
                                 }
-                            } else {
-                                window.location=\"/blogs\";
                             }
                         }
                     }
@@ -220,7 +228,6 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
             return false;
         });
     });
-
 </script>
 ";
     }
@@ -297,6 +304,7 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
         var \$loginform = \$(\"#loginform\");
         \$loginform.validate({
             rules: {
+                
                 mail: {
                     required:true,
                     email:true,
@@ -324,6 +332,8 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
             rules: {
                 name: {
                     required:true,
+                    minlength:2,
+                    maxlenght:25,
                 },
                 mail: {
                     required:true,
@@ -342,6 +352,8 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
             messages: {
                 name: {
                     required:\"chưa nhập tên\",
+                    minlength:\"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự\",
+                    maxlenght:\"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự\",
                 },
                 mail: {
                     required:\"chưa nhập mail\",
@@ -369,23 +381,24 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
                     success: function(data) {
                         if (data) {
                             let result = JSON.parse(data);
-                            if (typeof result.error === 'object') {
-                                if (result.error.mail){
-                                    \$(\"#mail1e\").html(result.error.mail);
+                            if (typeof(result) === 'object') {
+                                if (typeof result.error === 'object') {
+                                    if (result.error.mail){
+                                        \$(\"#mail1e\").html(result.error.mail);
+                                    }
+                                    if (result.error.pass){
+                                        \$(\"#pass1e\").html(result.error.pass);
+                                    }
+                                } else if (result.data)  {
+                                    window.location=\"/blogs\";
+                                } else {
+                                    \$(\"#loginforme\").html(\"sai email hoặc mật khẩu\");
                                 }
-                                if (result.error.pass){
-                                    \$(\"#pass1e\").html(result.error.pass);
-                                }
-                            } else if (result.data)  {
-                                window.location=\"/blogs\";
-                            } else {
-                                \$(\"#loginforme\").html(\"sai email hoặc mật khẩu\");
                             }
                         }
                     }
                 });
             }
-            
             return false;
         });
 
@@ -400,16 +413,18 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
                     success: function(data) {
                         if (data) {
                             let result = JSON.parse(data);
-                            if (result.error) {
-                                if (result.error.nickname) {
-                                    \$(\"#nicknamee\").text(result.error.nickname);
-                                } else if (result.error.mail) {
-                                    \$(\"#maile\").text(result.error.mail);
+                            if (typeof(result) === 'object'){
+                                if (typeof(result.error) === 'object' )  {
+                                    if (result.error.nickname) {
+                                        \$(\"#nicknamee\").html(result.error.nickname);
+                                    } else if (result.error.mail) {
+                                        \$(\"#maile\").html(result.error.mail);
+                                    } else {
+                                        \$(\"#passe\").html(result.error.pass);
+                                    }
                                 } else {
-                                    \$(\"#passe\").text(result.error.pass);
+                                    window.location=\"/blogs\";
                                 }
-                            } else {
-                                window.location=\"/blogs\";
                             }
                         }
                     }
@@ -418,7 +433,6 @@ class __TwigTemplate_165dafb935ec5ca91aae08f99f47441ee80596a13ccad5008842f4efc87
             return false;
         });
     });
-
 </script>
 {% endblock %}", "User/logon.html.twig", "/home/dr-trange/Code/PHP/blog/View/User/logon.html.twig");
     }

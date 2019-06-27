@@ -53,6 +53,7 @@
         var $loginform = $("#loginform");
         $loginform.validate({
             rules: {
+                
                 mail: {
                     required:true,
                     email:true,
@@ -80,6 +81,8 @@
             rules: {
                 name: {
                     required:true,
+                    minlength:2,
+                    maxlenght:25,
                 },
                 mail: {
                     required:true,
@@ -98,6 +101,8 @@
             messages: {
                 name: {
                     required:"chưa nhập tên",
+                    minlength:"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
+                    maxlenght:"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
                 },
                 mail: {
                     required:"chưa nhập mail",
@@ -143,7 +148,6 @@
                     }
                 });
             }
-            
             return false;
         });
 
@@ -178,6 +182,5 @@
             return false;
         });
     });
-
 </script>
 {% endblock %}

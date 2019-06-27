@@ -46,6 +46,8 @@
                 rules: {
                     nickname:{
                         required:true,
+                        minlength:2,
+                        maxlength:25,
                     },
                     mail: {
                         required:true,
@@ -56,8 +58,9 @@
                         required: true,
                     },
                     passnew:{
+                        // không bắt buộc thay đổi mật khẩu 
                         minlength: 5
-                    }
+                    },
                     passre :{
                         equalTo: "#passnew"
                     }
@@ -65,7 +68,9 @@
                 messages: {
                     nickname: {
                         required:"chưa nhập nickname",
-                    }
+                        minlength:"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
+                        maxlength:"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
+                    },
                     mail: {
                         required:"không để mục trống ",
                         email:"bắt buộc nhập mail",
@@ -102,15 +107,13 @@
                                     } else if (result.error.mail) {
                                         $("#maile").html(result.error.mail);
                                     } else {
-                                        $("#passolde").html("<b>lỗi hệ thống cập nhập</b>");
+                                        $("#passree").html(result.error.passre);
                                     }
                                 }
                             }
-                            
                         }
                     });
                 }
-
                 return false;
             });
         });

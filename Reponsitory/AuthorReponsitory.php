@@ -142,10 +142,30 @@ class AuthorReponsitory extends \Blog\data\MysqlDB {
             foreach ($resultSet as $re){
                 if ($re) {
                     return true;
-                
                 }
             }
             
+        }
+        return false;
+    }
+
+    public function checkMailWithId ($id,$mail) {
+        $sql    = new Sql($this->adapter);
+        $select = $sql->select();
+        $select->from('Author');
+        $select->where(['idAuthor'=>$id]);
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        if ($results instanceof ResultInterface && $results->isQueryResult()) {
+            $resultSet = new HydratingResultSet(new ClassMethodsHydrator, new AuthorModel);
+            $resultSet->initialize($results);
+            foreach ($resultSet as $re){
+                if ($re->getMail() == $mail ) {
+                    // neu mail moi trung voi mail dang dung
+                    // thi okey 
+                    return true;
+                }
+            }
         }
         return false;
     }

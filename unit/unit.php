@@ -12,15 +12,16 @@ $twig = new \Twig\Environment($loader, [
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 $twig->addExtension(new \Blog\App\Twig\TwigExtension());
 
-function response() {
-    $response = new \Blog\App\Respones();
 
+$response = new \Blog\App\Respones();
+
+function response() {
+    global $response;
     return $response;
 }
 
 function redirects(){
-    $response = new \Blog\App\Respones();
-
+    global $response;
     return $response;
 }
 

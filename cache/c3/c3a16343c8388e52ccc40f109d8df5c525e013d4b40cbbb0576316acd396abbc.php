@@ -103,6 +103,8 @@ class __TwigTemplate_cc13d633d96e1480a2b1985a1732a28039446fa186a6d2168d2d9b2dccb
                 rules: {
                     nickname:{
                         required:true,
+                        minlength:2,
+                        maxlength:25,
                     },
                     mail: {
                         required:true,
@@ -113,8 +115,9 @@ class __TwigTemplate_cc13d633d96e1480a2b1985a1732a28039446fa186a6d2168d2d9b2dccb
                         required: true,
                     },
                     passnew:{
+                        // không bắt buộc thay đổi mật khẩu 
                         minlength: 5
-                    }
+                    },
                     passre :{
                         equalTo: \"#passnew\"
                     }
@@ -122,7 +125,9 @@ class __TwigTemplate_cc13d633d96e1480a2b1985a1732a28039446fa186a6d2168d2d9b2dccb
                 messages: {
                     nickname: {
                         required:\"chưa nhập nickname\",
-                    }
+                        minlength:\"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự\",
+                        maxlength:\"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự\",
+                    },
                     mail: {
                         required:\"không để mục trống \",
                         email:\"bắt buộc nhập mail\",
@@ -148,23 +153,24 @@ class __TwigTemplate_cc13d633d96e1480a2b1985a1732a28039446fa186a6d2168d2d9b2dccb
                         data : \$(\"#detail\").serialize(),
                         success: function(data) {
                             let result = JSON.parse(data);
-                            if (result.data) {
-                                window.location=\"/blogs\";
-                            } else if (result.error){
-                                if (result.error.passold) {
-                                    \$(\"#passolde\").html(result.error.passold);
-                                } else if (result.error.nickname) {
-                                    \$(\"#nicknamee\").html(result.error.nickname);
-                                } else if (result.error.mail) {
-                                    \$(\"#maile\").html(result.error.mail);
-                                } else {
-                                    \$(\"#passolde\").html(\"<b>lỗi hệ thống cập nhập</b>\");
+                            if (typeof(result) === 'object') {
+                                if (result.data) {
+                                    window.location=\"/blogs\";
+                                } else if (typeof(result.error) === 'object'){
+                                    if (result.error.passold) {
+                                        \$(\"#passolde\").html(result.error.passold);
+                                    } else if (result.error.nickname) {
+                                        \$(\"#nicknamee\").html(result.error.nickname);
+                                    } else if (result.error.mail) {
+                                        \$(\"#maile\").html(result.error.mail);
+                                    } else {
+                                        \$(\"#passree\").html(result.error.passre);
+                                    }
                                 }
                             }
                         }
                     });
                 }
-
                 return false;
             });
         });
@@ -238,6 +244,8 @@ class __TwigTemplate_cc13d633d96e1480a2b1985a1732a28039446fa186a6d2168d2d9b2dccb
                 rules: {
                     nickname:{
                         required:true,
+                        minlength:2,
+                        maxlength:25,
                     },
                     mail: {
                         required:true,
@@ -248,8 +256,9 @@ class __TwigTemplate_cc13d633d96e1480a2b1985a1732a28039446fa186a6d2168d2d9b2dccb
                         required: true,
                     },
                     passnew:{
+                        // không bắt buộc thay đổi mật khẩu 
                         minlength: 5
-                    }
+                    },
                     passre :{
                         equalTo: \"#passnew\"
                     }
@@ -257,7 +266,9 @@ class __TwigTemplate_cc13d633d96e1480a2b1985a1732a28039446fa186a6d2168d2d9b2dccb
                 messages: {
                     nickname: {
                         required:\"chưa nhập nickname\",
-                    }
+                        minlength:\"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự\",
+                        maxlength:\"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự\",
+                    },
                     mail: {
                         required:\"không để mục trống \",
                         email:\"bắt buộc nhập mail\",
@@ -283,23 +294,24 @@ class __TwigTemplate_cc13d633d96e1480a2b1985a1732a28039446fa186a6d2168d2d9b2dccb
                         data : \$(\"#detail\").serialize(),
                         success: function(data) {
                             let result = JSON.parse(data);
-                            if (result.data) {
-                                window.location=\"/blogs\";
-                            } else if (result.error){
-                                if (result.error.passold) {
-                                    \$(\"#passolde\").html(result.error.passold);
-                                } else if (result.error.nickname) {
-                                    \$(\"#nicknamee\").html(result.error.nickname);
-                                } else if (result.error.mail) {
-                                    \$(\"#maile\").html(result.error.mail);
-                                } else {
-                                    \$(\"#passolde\").html(\"<b>lỗi hệ thống cập nhập</b>\");
+                            if (typeof(result) === 'object') {
+                                if (result.data) {
+                                    window.location=\"/blogs\";
+                                } else if (typeof(result.error) === 'object'){
+                                    if (result.error.passold) {
+                                        \$(\"#passolde\").html(result.error.passold);
+                                    } else if (result.error.nickname) {
+                                        \$(\"#nicknamee\").html(result.error.nickname);
+                                    } else if (result.error.mail) {
+                                        \$(\"#maile\").html(result.error.mail);
+                                    } else {
+                                        \$(\"#passree\").html(result.error.passre);
+                                    }
                                 }
                             }
                         }
                     });
                 }
-
                 return false;
             });
         });
