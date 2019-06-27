@@ -42,6 +42,12 @@ abstract class AbstractModel {
 
             case 'uns' :
                 $key = $this->_underscore(substr($method,3));
+                if (isset($this->data[$key])) {
+                    $result = $this->data[$key];
+                } else {
+                    $result = null;
+                }
+
                 unset($this->data[$key]);
                 return $result;
 
