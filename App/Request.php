@@ -1,9 +1,6 @@
 <?php 
 namespace Blog\App;
 
-use \Blog\Controller\BlogController;
-use \Blog\Controller\AuthorController;
-use \Blog\App\Request;
 
 class Request {
     protected $path_info = array() ;
