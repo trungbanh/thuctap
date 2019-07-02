@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'BlogController@all');
+Route::get('/blogs', 'BlogController@all');
+Route::get('/blog/{id}', 'BlogController@detail');
+Route::get('/blog/update/{id}', 'BlogController@getUpdateLayout');
+Route::get('/blog/', 'BlogController@getPaper');
+
+Route::get('/author/logon/','AuthorController@logon');
+Route::get('/author/','AuthorController@getUpdateLayout');

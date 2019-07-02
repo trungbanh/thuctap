@@ -1,21 +1,18 @@
-{% extends '/layout/base.html.twig' %}
+@extends('layouts.base')
 
-{% block body %}
-
-{% set user = App.session.getUser() %}
-    
+@section('body')
 <div class='row'>
-    {% if (user) %}
+    @if ($user)
     <script >
         $().ready(function(){
             $("#myform").validate({
                 rules: {
-                        title: {
-                            required:true,
-                        },
-                        content: {
-                            required: true,
-                        },
+                    title: {
+                        required:true,
+                    },
+                    content: {
+                        required: true,
+                    },
                     },
                 messages: {
                     title: {
@@ -55,13 +52,11 @@
             <input type="submit" id='target' value="tạo bài viết mới"/>
         </form> 
     </div>
-    {% else %}
+    @else
     <div class='ads'>
         <img src="./static/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
         <p> quảng cáo  </p>
     </div>
-    {% endif %}
+    @endif
 </div>
-        
-
-{% endblock %}
+@endsection

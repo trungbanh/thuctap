@@ -1,17 +1,11 @@
 <?php 
-namespace Blog\Controller;
+namespace App\Http\Controllers;
 
-use \Blog\Reponsitory\BlogReponsitory;
-use \Blog\Model\BlogModel;
-use \Blog\data\MysqlDB;
-use \Blog\App\Request;
-use \Blog\App\Session;
-use \Blog\App\App;
+use \App\Reponsitory\BlogReponsitory;
+use \App\Model\Blog as BlogModel;
+use Illuminate\Http\Request;
 
-use Twig\Loader\FilesystemLoader;
-use Twig\Environment;
-
-    class BlogController{
+    class BlogController extends Controller{
         /**
          * insert new blog 
          * 
@@ -80,9 +74,9 @@ use Twig\Environment;
             $repo = new BlogReponsitory();
             $result = $repo->delete($request->input('id'));
             if ($result) {
-                return redirects()->path(' /blogs');
+                return redirects()->path('/blogs');
             } else {
-                return redirects()->path(' /blogs');
+                return redirects()->path('/blogs');
             }
         }
 
@@ -92,10 +86,9 @@ use Twig\Environment;
          * @return array BlogModel or false 
          */
         public function all() {
-            $repo = new BlogReponsitory();
-            $list = $repo->getList();
-            
-            return response()->view('/Blog/index.html.twig', array('list'=> $list));
+            $blogs = BlogModel::all();
+            $user = array ('id'=>1,'nickname'=>'test');
+            return response()->view('index', array('blogs'=> $blogs, 'user' => $user));
         }
 
         /**
@@ -103,22 +96,22 @@ use Twig\Environment;
          * 
          * @return array BlogModel or false 
          */
-        function detail(Request $request) {
-            $repo = new BlogReponsitory();
-            $detail = $repo->getDetail($request->getQueryByKey('id'));
+        function detail($id) {
+            $detail = BlogModel::where('id',$id)->first();
 
-            return response()->view('/Blog/detail.html.twig',array('detail'=> $detail));
+            $user = array ('id'=>1,'nickname'=>'test');
+            return response()->view('detail', array('blog'=> $detail, 'user' => $user));
         }
 
-        function getUpdateLayout (Request $request) {
+        function getUpdateLayout ($id) {
             $repo = new BlogReponsitory();
             $detail = $repo->getDetail($request->getQueryByKey('id'));
-
-            return response()->view('/Blog/update.html.twig',array('detail'=> $detail));
+            $user = array ('id'=>1,'nickname'=>'test');
+            return response()->view('update', array('blog'=> $detail, 'user' => $user));
         }
 
         function getPaper() {
-            return response()->view('/Blog/paper.html.twig');
+            return response()->view('page', array('user'=>true));
         }
     }
 ?>  

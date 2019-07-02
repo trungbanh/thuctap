@@ -1,17 +1,12 @@
 <?php 
-    namespace Blog\Controller;
+    namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use Rakit\Validation\Validator;
+    use \App\Model\Author as AuthorModel;
+    use Illuminate\Http\Request;
 
-
-    use Blog\Model\AuthorModel;
-    use Blog\Reponsitory\AuthorReponsitory;
-    use \Blog\App\Request;
-    use \Blog\App\Session;
-    use \Blog\App\App;
-    use \Blog\App\Respones;
-
-    class AuthorController{
+    class AuthorController extends Controller {
 
         public function all() {
             $repo = new AuthorReponsitory();
@@ -72,7 +67,7 @@
 
             $result = $repo->updateDetail($user);
             if ($result !== null) {
-                App::session()->setUser($user);
+                Request::session()->setUser($user);
                 $result = array('data'=>true);
                 return response()->json($result);
             }
@@ -151,7 +146,7 @@
             $user = $repo->login($mail, $hashpass);
 
             if ($user !== null) {
-                App::session()->setUser($user);
+                Request::session(array('user'=>$user));
                 $result = array('data'=>true);
                 return response()->json($result);
             }
@@ -166,11 +161,12 @@
         }
 
         public function logon () {
-            return response()->view('User/logon.html.twig');
+            return response()->view('logon');
         }
 
         public function getUpdateLayout() {
-            return response()->view('User/detailuser.html.twig');
+            $user = array ('id_author'=>1,'nickname'=>'test');
+            return response()->view('detailuser',array('user'=>$user ));
         }
     }
 ?>

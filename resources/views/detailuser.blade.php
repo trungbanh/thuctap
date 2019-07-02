@@ -1,0 +1,120 @@
+@extends('layouts.base')
+
+@section('body')
+<div class="updatebox row">
+    <form id="detail" enctype="multipart/form-data">
+        <input name="idAuthor" type="hidden" value="{{ $user['id_author'] }}" >
+        <div class="form-group">
+            <label for="nickname" >Tên:  </label>
+            <input id="nickname" name="nickname" type="text" value="{{ $user['nickname'] }}" >
+            <p class="error" id="namee"></p>
+        </div>
+        <div class="form-group">
+            <label for="mail" >Email: </label>
+            <input id="mail" name="mail" type="text" value="{{-- $user->mail --}}" required="required"> 
+            <p class="error" id="maile"></p>
+        </div>
+        <div class="form-group">
+            <label for="passold" >Mật khẩu cũ : </label>
+            <input name="passold" id="passold" type="password" value="trungne" >
+            <p class="error" id="passolde"></p>
+            </div>
+        <div class="form-group">
+            <label for="passnew" >Mật khẩu mới : </label>
+            <input name="passnew" id="passnew" type="password" value="trungne" >
+            <p class="error" id="passnewe"></p>
+        </div>
+        <div class="form-group">
+            <label for="passre" >Mật khẩu mới nhập lại : </label>
+            <input name="passre" id="passre" type="password" value="trungne">
+            <p class="error" id="passree"></p>
+        </div>
+        <button id="updatedetail" name="update" >Cập nhập</button>
+    </form>
+</div>
+
+<script >
+    $().ready(function(){
+        $.validator.addMethod("regex",function(value,element,regexp) {
+            return this.optional(element) || regexp.test(value)
+        }, "mail không hợp lệ");
+
+        var $detail = $("#detail");
+        $detail.validate({
+            rules: {
+                nickname:{
+                    required:true,
+                    minlength:2,
+                    maxlength:25,
+                },
+                mail: {
+                    required:true,
+                    email:true,
+                    regex: /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@trung\.com$/,
+                },
+                passold: {
+                    required: true,
+                },
+                passnew:{
+                    // không bắt buộc thay đổi mật khẩu 
+                    minlength: 5
+                },
+                passre :{
+                    equalTo: "#passnew"
+                }
+            },
+            messages: {
+                nickname: {
+                    required:"chưa nhập nickname",
+                    minlength:"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
+                    maxlength:"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
+                },
+                mail: {
+                    required:"không để mục trống ",
+                    email:"bắt buộc nhập mail",
+                },
+                passold: {
+                    required: "nhập mật khẩu",
+                },
+                passnew:{
+                    minlength: "độ dài tối thiểu là 5"
+                },
+                passre :{
+                    equalTo: "xác thực không khớp"
+                }
+            }
+        });
+
+        $("#updatedetail").on("click",function(event){
+            event.preventDefault();
+            if ($detail.valid()){
+                $.ajax({
+                    type : 'POST',
+                    url : '/author/update/detail',
+                    data : $("#detail").serialize(),
+                    success: function(data) {
+                        let result = JSON.parse(data);
+                        if (typeof(result) === 'object') {
+                            if (result.data) {
+                                window.location="/blogs";
+                            } else if (typeof(result.error) === 'object'){
+                                if (result.error.passold) {
+                                    $("#passolde").html(result.error.passold);
+                                } else if (result.error.nickname) {
+                                    $("#nicknamee").html(result.error.nickname);
+                                } else if (result.error.mail) {
+                                    $("#maile").html(result.error.mail);
+                                } else {
+                                    $("#passree").html(result.error.passre);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>
+
+@endsection

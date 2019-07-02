@@ -1,4 +1,7 @@
-<?php namespace Blog\data;
+<?php 
+namespace App\data;
+
+    use Zend\Db\Adapter\Adapter;
 
 // define('ERROR_REPORTING', E_ALL | E_STRICT);
 
@@ -10,8 +13,13 @@ class MysqlDB {
 
     public function __construct() 
     {
-        $driverConfig = require_once(ROOT_PATH."/config/configdb.php");
-        $this->adapter = new \Zend\Db\Adapter\Adapter($driverConfig);
+        $this->adapter = new Adapter(array(
+            'driver'   => 'Mysqli',
+            'database' => 'myDB',
+            'username' => 'teng',
+            'password' => 'password',
+            'hostname' => 'localhost'
+        ));
 
     }
     
