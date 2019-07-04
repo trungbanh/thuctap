@@ -145,7 +145,12 @@
             $mail = $request->input('mail');
             $pass = $request->input('pass');
             $user = AuthorModel::where('mail',$mail)->first();
-            
+
+            if ($user == null ) {
+                $result = array('error'=>'mail không tồn tại');
+                return response()->json($result);
+            }
+
             if (AuthorModel::check($pass,$user->password)) {
                 $request->session()->put('user', $user);
                 $result = array('data'=>true);
