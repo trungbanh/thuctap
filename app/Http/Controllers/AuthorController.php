@@ -9,8 +9,7 @@
     class AuthorController extends Controller {
 
         public function all() {
-            $repo = new AuthorReponsitory();
-            return $repo->all();
+            return null;
         }
 
         public function updateDetail (Request $request) {
@@ -39,35 +38,34 @@
                 return response()->json($result); 
             }
 
-            $idAuthor = $request->input('idAuthor');
+            $idAuthor = $request->session()->get('user')['id'];
             $name = $request->input('nickname');
             $mail = $request->input('mail');
             $pass = $request->input('passold');
             $passnew = $request->input('passnew');
 
-            $hashpassold = AuthorModel::hashpass($pass);
-            $repo = new AuthorReponsitory();
-            $user = $repo->checkPass($idAuthor, $hashpassold);
-            if ($user == null ) {
+            $user = AuthorModel::find($idAuthor);
+            if (!AuthorModel::check($pass, $user['password'])) {
                 $result=array('error'=> array('passold' => 'sai mật khẩu cũ'));
                 return response()->json($result);
             }
 
+            $another = AuthorModel::where('mail',$mail);
             // neu mail moi khong thuoc id nay va da dc su dung boi id khac 
-            if (!$repo->checkMailWithId($idAuthor,$mail) && $repo->checkMail($mail) ){
+            if ($user->mail != $mail && $another != null ){
                 $result = array('error' => array('mail'=> 'mail này đã được sử dụng'));
-                return \response()->json($result);
+                return response()->json($result);
             }
 
             if (!empty($passnew)){
-                $user->setPassword($passnew);
+                $user->password=AuthorModel::hashpass($passnew);
             }
-            $user->setNickname($name);
-            $user->setMail($mail);
+            $user->nickname=$name;
+            $user->mail=$mail;
 
-            $result = $repo->updateDetail($user);
-            if ($result !== null) {
-                Request::session()->setUser($user);
+            if ($user->save()) {
+                // Request::session()->setUser($user);
+                $request->session()->put('user',$user);
                 $result = array('data'=>true);
                 return response()->json($result);
             }
@@ -98,6 +96,7 @@
             if ($validation->fails()) {
                 $errors = $validation->errors();
                 $result = array('error'=>$errors->firstOfAll());
+                die(var_dump($result));
                 return response()->json($result) ;
             }
 
@@ -105,15 +104,19 @@
             $mail = $request->input('mail');
             $pass = $request->input('pass');
             
-            $repo = new AuthorReponsitory();
-            if  ($repo->checkMail($mail)) {
+            $author = AuthorModel::where('mail',$mail)->first();
+            if ($author != null) {
                 $result = array('error'=>array('mail'=>'mail đã được sử dụng'));
                 return response()->json($result);
             }
             $hashpass = AuthorModel::hashpass($pass);
-            $author = new AuthorModel(array('nickName'=>$name,'mail'=>$mail,'password'=>$hashpass));
-            $resu = $repo->insert($author);
-
+            $author = new AuthorModel();
+            // array('nickName'=>$name,'mail'=>$mail,'password'=>$hashpass)
+            $author->nickname = $name;
+            $author->mail = $mail;
+            $author->password = $hashpass;
+            $author->save();
+            
             $result = array('data'=>true);
             return response()->json($result);
         }
@@ -135,18 +138,16 @@
             if ($validation->fails()) {
                 $errors = $validation->errors();
                 $result = array('error'=>$errors->firstOfAll());
+                
                 return response()->json($result) ;
             }
 
             $mail = $request->input('mail');
             $pass = $request->input('pass');
-
-            $hashpass = AuthorModel::hashpass($pass);
-            $repo = new AuthorReponsitory();
-            $user = $repo->login($mail, $hashpass);
-
-            if ($user !== null) {
-                Request::session(array('user'=>$user));
+            $user = AuthorModel::where('mail',$mail)->first();
+            
+            if (AuthorModel::check($pass,$user->password)) {
+                $request->session()->put('user', $user);
                 $result = array('data'=>true);
                 return response()->json($result);
             }
@@ -155,17 +156,18 @@
             return response()->json($result) ;
         }
 
-        public function logout() {
-            App::session()->destroy();
-            redirects()->path('/blogs');
+        public function logout(Request $request) {
+            $user = $request->session()->forget('user');
+            $request->session()->flush();
+            return redirect('/');
         }
 
         public function logon () {
             return response()->view('logon');
         }
 
-        public function getUpdateLayout() {
-            $user = array ('id_author'=>1,'nickname'=>'test');
+        public function getUpdateLayout(Request $request) {
+            $user = $request->session()->get('user');
             return response()->view('detailuser',array('user'=>$user ));
         }
     }

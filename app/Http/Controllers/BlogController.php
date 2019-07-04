@@ -17,16 +17,16 @@ use Illuminate\Http\Request;
         public function insert(Request $request) {
             $ten = $request->input('title');
             $noidung = $request->input('content');
-            $tacgia = App::session()->getUser()->id_author;
+            $tacgia = $request->session()->get('user')['id'];
             if (!empty($ten) && !empty($noidung) && !empty($tacgia) ){
-                $baiviet = new BlogModel(array('title'=>$ten, 'content'=>$noidung, 'idAuthor'=>$tacgia));
-                $repo = new BlogReponsitory();
-                $result = $repo->insert($baiviet);
-                if ($result) {
-                    return redirects()->path('/blog/'.$result['id']);
-                } 
+                $baiviet = new BlogModel();
+                $baiviet->title = $ten;
+                $baiviet->content=$noidung; 
+                $baiviet->author=$tacgia;
+                $baiviet->save();
+                return \response()->json(array('data'=>true));
             }
-            return false;
+            return \response()->json(array('error'=>false));
         }
 
         /**
@@ -38,8 +38,9 @@ use Illuminate\Http\Request;
         public function update(Request $request) {
             $fields = array('title', 'content');
             $data = $request->input();
-            if ($data['idAuthor'] != strval(App::session()->getUser()->id_author)) {
-                return redirects()->path('/blog/'.$data['id']);
+            if ($data['idAuthor'] != $request->session()->get('user')['id']) {
+                dd($data,$request->session()->get('user'));
+                return \response()->json(array('error'=>'sai id'));
             }
 
             // dong nay co nghia 
@@ -52,12 +53,15 @@ use Illuminate\Http\Request;
                 }
                 return false;
             }
-            $repo = new BlogReponsitory();
-            $result = $repo->update($data);
-            if ($result) {
-                return redirects()->path('/blog/'.$data['id']);
+            $update = BlogModel::find($data['id']);
+
+            $update->title = $data['title'];
+            $update->content = $data['content'];
+
+            if ($update->save()) {
+                return \response()->json(array('data'=>true));
             } else {
-                return redirects()->path('/blog/'.$data['id']);
+                return \response()->json(array('error'=>'sai cap nhap'));
             }
         }
 
@@ -67,16 +71,15 @@ use Illuminate\Http\Request;
          * @return boolean 
          */
         public function delete (Request $request) {
-            if ($request->input('idAuthor') != strval(App::session()->getUser()->id_author)) {
-                return null;
+            // die(var_dump($request->input(), $request->session()->get('user')['id']));
+            if ($request->input('idAuthor') != $request->session()->get('user')['id']) {
+                return \response()->json(array('error'=>false));
             }
 
-            $repo = new BlogReponsitory();
-            $result = $repo->delete($request->input('id'));
-            if ($result) {
-                return redirects()->path('/blogs');
+            if (BlogModel::destroy($request->input('id'))) {
+                return \response()->json(array('data'=>true));
             } else {
-                return redirects()->path('/blogs');
+                return \response()->json(array('error'=>false));
             }
         }
 
@@ -85,10 +88,9 @@ use Illuminate\Http\Request;
          * 
          * @return array BlogModel or false 
          */
-        public function all() {
+        public function all(Request $request) {
             $blogs = BlogModel::all();
-            $user = array ('id'=>1,'nickname'=>'test');
-            return response()->view('index', array('blogs'=> $blogs, 'user' => $user));
+            return response()->view('index', array('blogs'=> $blogs, 'user' => $request->session()->get('user')));
         }
 
         /**
@@ -96,22 +98,18 @@ use Illuminate\Http\Request;
          * 
          * @return array BlogModel or false 
          */
-        function detail($id) {
+        function detail(Request $request, $id) {
             $detail = BlogModel::where('id',$id)->first();
-
-            $user = array ('id'=>1,'nickname'=>'test');
-            return response()->view('detail', array('blog'=> $detail, 'user' => $user));
+            return response()->view('detail', array('blog'=> $detail, 'user'=> $request->session()->get('user')));
         }
 
-        function getUpdateLayout ($id) {
-            $repo = new BlogReponsitory();
-            $detail = $repo->getDetail($request->getQueryByKey('id'));
-            $user = array ('id'=>1,'nickname'=>'test');
-            return response()->view('update', array('blog'=> $detail, 'user' => $user));
+        function getUpdateLayout (Request $request, $id) {
+            $detail = BlogModel::find($id);
+            return response()->view('update', array('blog'=> $detail,'user'=> $request->session()->get('user')));
         }
 
-        function getPaper() {
-            return response()->view('page', array('user'=>true));
+        function getPaper(Request $request) {
+            return response()->view('page', array('user'=>$request->session()->get('user')));
         }
     }
-?>  
+?>

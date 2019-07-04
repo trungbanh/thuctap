@@ -3,7 +3,7 @@
 @section('body')
 <div class="updatebox row">
     <form id="detail" enctype="multipart/form-data">
-        <input name="idAuthor" type="hidden" value="{{ $user['id_author'] }}" >
+        <input name="idAuthor" type="hidden" value="{{ $user['id'] }}" >
         <div class="form-group">
             <label for="nickname" >Tên:  </label>
             <input id="nickname" name="nickname" type="text" value="{{ $user['nickname'] }}" >
@@ -11,7 +11,7 @@
         </div>
         <div class="form-group">
             <label for="mail" >Email: </label>
-            <input id="mail" name="mail" type="text" value="{{-- $user->mail --}}" required="required"> 
+            <input id="mail" name="mail" type="text" value="{{ $user['mail'] }}" required="required"> 
             <p class="error" id="maile"></p>
         </div>
         <div class="form-group">
@@ -90,11 +90,17 @@
             if ($detail.valid()){
                 $.ajax({
                     type : 'POST',
-                    url : '/author/update/detail',
+                    url : '/author',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data : $("#detail").serialize(),
                     success: function(data) {
-                        let result = JSON.parse(data);
+                        //let result = JSON.parse(data);
+                        let result = data;
                         if (typeof(result) === 'object') {
+
+                            console.log(result);
                             if (result.data) {
                                 window.location="/blogs";
                             } else if (typeof(result.error) === 'object'){

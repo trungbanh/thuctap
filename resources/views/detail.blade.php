@@ -5,17 +5,23 @@
 
 <div class='row'>
     <div class='slide col-3'>
-        @if ($user)
+        @if ($user['id'] ===$blog['author'])
             <script >
                 $(document).ready(function(){
                     $("#myform").on("submit",function(event){
                         event.preventDefault();
                         $.ajax({
                             type       : 'DELETE',
-                            url        : '/blog',
+                            url        : '/blog/',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
                             data       : $("#myform").serialize(),
-                            success: function() {
-                                window.location="/blogs";
+                            success: function(data) {
+                                if (data) {
+                                    window.location="/blogs";
+                                }
+                                // window.location="/blogs";
                             }
                         });
                         return true;
@@ -23,8 +29,8 @@
                 });
             </script>
             <form id='myform' enctype='multipart/form-data'>
-                <input name="id" type=hidden value={{ $blog->id }} />
-                <input name="idAuthor" type=hidden value={{ $blog->author}} />
+                <input name="id" type=hidden value="{{ $blog['id'] }}" />
+                <input name="idAuthor" type=hidden value="{{ $blog['author'] }}" />
                 <input type="submit" name='delblog' value='xóa bài này '/>
             </form> 
             <br/>

@@ -3,9 +3,10 @@
 namespace App\Model;
 
 use \Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
-class Author extends Model 
-{
+
+class Author extends Model {
 
     /**
      * The table associated with the model.
@@ -19,18 +20,35 @@ class Author extends Model
      *
      * @var int
      */
-    protected $primaryKey = 'id_author';
+    protected $primaryKey = 'id';
 
 
     protected $fillable = array(
         'nickname', 
         'mail', 
         'password', 
-        'id_author'
+        'id'
     );
 
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
+
+    public $timestamps = false;
+
     public static function hashpass ($pass){
-        return hash('md5',$pass,TRUE);
+        return Hash::make($pass);
+    }
+
+    public static function check($pass,$hass) {
+        if (Hash::check($pass,$hass)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function setPassword($pass)

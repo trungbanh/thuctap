@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "rakit/validation": "^1.1",
         "zendframework/zend-db": "^2.10",
         "zendframework/zend-hydrator": "^3.0"
     },

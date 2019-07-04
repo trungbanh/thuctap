@@ -2,7 +2,7 @@
 
 @section('body')
 <div class='row'>
-    @if ($user)
+    @if ($user['id'] == $blog['id'])
     <script >
         $().ready(function(){
             $("#myform").validate({
@@ -30,19 +30,18 @@
                 $("#myform").on("submit",function(event){
                     event.preventDefault();
                     $.ajax({
-                        type       : 'PUT',
+                        type       : 'POST',
                         url        : '/blog',
                         data       : $("#myform").serialize(),
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(result) {
-                            if (result) {
+                            if (result.data) {
                                 console.log(result);
-                                if (result.data) {
-                                    window.location="/blogs";
-                                }
-                                // window.location="/blogs";
+                                window.location="/blogs";
+                            } else {
+                                console.log(result);
                             }
                             
                         }
@@ -55,16 +54,18 @@
     </script>
     <div class='form col-9'>
         <form id="myform" enctype='multipart/form-data'> 
+            <input name=id value="{{ $blog['id'] }}"  hidden/>
+            <input name=idAuthor value="{{ $blog['author'] }}"  hidden/>
             <p> tên bài viết  </p>
-            <textarea type="text" name="title" id="title" rows="2" cols="35"  ></textarea> <br> <br>
+            <textarea type="text" name="title" id="title" rows="2" cols="35" >{{ $blog['title'] }}</textarea> <br> <br>
             <p> nội dung bài viết  </p>
-            <textarea type="text" name="content" id="content" rows="20" cols="35" ></textarea> <br> <br>
-            <input type="submit" id='target' value="tạo bài viết mới"/>
+            <textarea type="text" name="content" id="content" rows="20" cols="35" >{{ $blog['content'] }}</textarea> <br> <br>
+            <input type="submit" id='target' value="cập nhập bài viết"/>
         </form> 
     </div>
     @else
     <div class='ads'>
-        <img src="./static/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
+        <img src="/images/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
         <p> quảng cáo  </p>
     </div>
     @endif

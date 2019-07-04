@@ -13,6 +13,11 @@ class Blog extends Model
      */
     protected $table = 'MyBlog';
 
+
+    public $incrementing = true;
+
+    public $timestamps = false;
+
     /**
      * The primary key associated with the table.
      *

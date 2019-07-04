@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title')</title>
 
-    <link href="{{ URL::asset('js/jquery.min.js') }} " rel="stylesheet"> 
+    <script src="{{ URL::asset('js/jquery.min.js') }} " > </script> 
     <link href="{{ URL::asset('css/style.css') }} " rel="stylesheet"> 
     
     <script src='https://jqueryvalidation.org/files/lib/jquery-1.11.1.js' > </script>
