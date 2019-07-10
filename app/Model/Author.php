@@ -107,5 +107,6 @@ class Author extends Authenticatable {
     {
         return $this->rememberTokenName;
     }
+
 }
 ?>

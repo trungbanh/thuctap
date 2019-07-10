@@ -14,8 +14,20 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
 </head>
 <body>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+
+    @yield('before_body_start')
+    
     @include('layouts.header')
     @yield('body')
     @include('layouts.footer')
+
+    @yield('before_body_end')
 </body>
 </html>

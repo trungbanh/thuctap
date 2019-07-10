@@ -5,6 +5,7 @@
 
 @php 
     $user = Auth::user();
+    \App\Http\Controllers\Unit::getNicknameById(1);
 @endphp
 
 <div class="container" >
@@ -13,31 +14,30 @@
             @if ($user['id'] ===$blog['author'])
                 <script >
                     $(document).ready(function(){
-                        $("#myform").on("submit",function(event){
+                        $("#btn-blog-delete").on("click",function(event){
                             event.preventDefault();
                             $.ajax({
                                 type       : 'DELETE',
                                 url        : '/blog/',
-                                data       : $("#myform").serialize(),
-                                success: function(data) {
-                                    if (data) {
-                                        // window.location="/blogs";
-                                        console.log(data);
+                                data       : {
+                                    id: "{{ $blog['id'] }}",
+                                    idAuthor: "{{ $blog['author'] }}"
+                                },
+                                success: function(result) {
+                                    if (typeof result === 'object' && result.data) {
+                                        window.location = "{{ route('blog-index') }}";
                                     }
-                                    // window.location="/blogs";
                                 }
                             });
+
                             return false;
                         });
                     });
                 </script>
-                <form id="myform" enctype="multipart/form-data">
-                    <input name="id" type=hidden value="{{ $blog['id'] }}" />
-                    <input name="idAuthor" type=hidden value="{{ $blog['author'] }}" />
-                    <input class="btn btn-outline-danger" type="submit" name='delblog' value='xóa bài này '/>
-                </form> 
-                <br/>
-                <a class="btn btn-primary" href= {{"/blog/update/". $blog->id}}>cập nhập nội dung</a>
+                
+                <button class="btn btn-outline-danger" id="btn-blog-delete" >Xóa bài này</button>
+
+                <a class="btn btn-primary" href="{{ route('blog-update', ['id' => $blog->id])}}">Cập nhập nội dung</a>
             @else
                 <div>
                     <img src="/images/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
@@ -54,7 +54,7 @@
                     {{ $blog->content}}
             </p>
             <p id="author_blog"> 
-                {{"write by " . $blog->author }}
+                {{"write by " . \App\Http\Controllers\Unit::getNicknameById($blog->author)['nickname'] }}
             </p>
         </article>
 

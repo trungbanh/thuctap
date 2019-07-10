@@ -2,7 +2,9 @@
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
-    use Rakit\Validation\Validator;
+    // use Rakit\Validation\Validator;
+    use Illuminate\Support\Facades\Validator;
+
     use \App\Model\Author as AuthorModel;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
@@ -17,20 +19,13 @@
             // idAuthor, nickname, mail, password
 
             $result = array();
-            $validator = new Validator();
-            $validation = $validator->make($request->input(), [
+            
+            $validation = Validator::make($request->input(), [
                 'nickname' => 'required',
                 'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung\.com)$/',
                 'passold' => 'required|min:5',
                 'passre' => 'same:passnew'
             ]);
-            $validation->setAliases([
-                'nickname' => 'Name',
-                'mail' => 'Mail',
-                'passold' => 'Password',
-                'passre' => 'Password'
-            ]);
-            $validation->validate();
 
             if ($validation->fails()) {
                 // handling errors
@@ -76,22 +71,12 @@
         public function insert(Request $request) {
             // $name, $mail, $pass
             $result = array();
-            $validator = new Validator;
-
-            $validation = $validator->make($request->input(), [
+            $validation = Validator::make($request->input(), [
                 'nickname' => 'required',
                 'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@trung\.com$/',
                 'pass' => 'required|min:5',
                 'passre' => 'required|same:pass'
             ]);
-            $validation->setAliases([
-                'nickname' => 'Name',
-                'mail' => 'Mail',
-                'pass' => 'Password',
-                'passre' => 'Password'
-            ]);
-            $validation->validate();
-
             if ($validation->fails()) {
                 $errors = $validation->errors();
                 $result = array('error'=>$errors->firstOfAll());
@@ -123,17 +108,10 @@
         public function login(Request $request) {
 
             $result = array();
-            $validator = new Validator();
-            $validation = $validator->make($request->input(), [
+            $validation = Validator::make($request->input(), [
                 'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@trung\.com$/',
                 'pass' => 'required'
             ]);
-
-            $validation->setAliases([
-                'mail' => 'Mail',
-                'pass' => 'Password'
-            ]);
-            $validation->validate();
 
             if ($validation->fails()) {
                 $errors = $validation->errors();
@@ -158,17 +136,17 @@
         }
 
         public function logout(Request $request) {
-            $user = $request->session()->forget('user');
-            $request->session()->flush();
+            Auth::logout();
             return redirect('/');
         }
 
         public function logon () {
-            return response()->view('logon');
+            return response()->view('author.logon');
         }
 
         public function getUpdateLayout(Request $request) {
-            return response()->view('detailuser');
+            return response()->view('author.detail');
         }
+
     }
 ?>

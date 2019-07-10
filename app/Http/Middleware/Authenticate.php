@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Closure;
+use Auth;
 
 class Authenticate extends Middleware
 {
@@ -15,7 +16,7 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        $user = $request->session()->get('user');
+        $user = Auth::user();
         if (!($user instanceof \App\Model\Author && $user->id)) {
             return route('logon');
         }

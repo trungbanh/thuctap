@@ -5,60 +5,62 @@
 <div class="container">
     <div class="row">
 
-    <div class="col-6" > 
-        <form id="loginform" enctype="multipart/form-data">
-            <h3 class="error" id="loginforme"></h3>
-            <div class="form-group">
-                <label for="mail1">Mail</label> 
-                <input type="text" name="mail" id="mail1" value="trungtest111@trung.com">
-                <p class="error" id="mail1e"></p>
-            </div>
-            <div class="form-group">
-                <label for="pass1">Mật khẩu</label>
-                <input type="password" name="pass" id="pass1" value="trungne">
-                <p class="error" id="pass1e"></p>
-            </div>
-            <button id="loginbtn" name="login" >Đăng Nhập</button>
-        </form>
-    </div>
+        <div class="col-12 col-md-6" > 
+            <form id="loginform" enctype="multipart/form-data">
+                <div class="error" id="loginforme"></div>
+                <h4>Đăng nhập</h4>
+                <div class="form-group">
+                    <label for="mail1">Mail</label> 
+                    <input class="form-control" type="text" name="mail" id="mail1" value="trungtest111@trung.com">
+                    <p class="error" id="mail1e"></p>
+                </div>
+                <div class="form-group">
+                    <label for="pass1">Mật khẩu</label>
+                    <input class="form-control" type="password" name="pass" id="pass1" value="trungne">
+                    <p class="error" id="pass1e"></p>
+                </div>
+                <button class="btn btn-primary" id="loginbtn" name="login" >Đăng Nhập</button>
+            </form>
+        </div>
 
-    <div class="col-6">
-    <form id="signform" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="nickname">Tên tài khoản</label>
-            <input type="text" name="nickname" id="nickname" value="trungtest">
-            <p class="error" id="nicknamee"></p>
+        <div class="col-12 col-md-6">
+            <form id="signform" enctype="multipart/form-data">
+                <h4>Đăng ký</h4>
+                <div class="form-group">
+                    <label for="nickname">Tên tài khoản</label>
+                    <input class="form-control" type="text" name="nickname" id="nickname" value="trungtest">
+                    <p class="error" id="nicknamee"></p>
+                </div>
+                <div class="form-group">
+                    <label for="mail">Mail (chỉ nhận mail từ @trung.com)</label>
+                    <input class="form-control" type="text" name="mail" id="mail" value="trungtest@trung.com">
+                    <p class="error" id="maile"></p>
+                </div>
+                <div class="form-group">
+                    <label for="pass">Mật khẩu </label>
+                    <input class="form-control" type="password" name="pass" id="pass" value="trungne" minlength="5">
+                    <p class="error" id="passe"></p>
+                </div>
+                <div class="form-group">
+                    <label for="passre">Nhập lại mật khẩu</label>
+                    <input class="form-control" type="password" name="passre" id="passre" value="trungne">
+                    <p class="error" id="pwre"></p>
+                </div>
+                <button class="btn btn-primary" id="signinbtn" name="signin" >Đăng Ký</button> 
+            </form>
         </div>
-        <div class="form-group">
-            <label for="mail">Mail (chỉ nhận mail từ @trung.com)</label>
-            <input type="text" name="mail" id="mail" value="trungtest@trung.com">
-            <p class="error" id="maile"></p>
-        </div>
-        <div class="form-group">
-            <label for="pass">Mật khẩu </label>
-            <input type="password" name="pass" id="pass" value="trungne" minlength="5">
-            <p class="error" id="passe"></p>
-        </div>
-        <div class="form-group">
-            <label for="passre">Nhập lại mật khẩu</label>
-            <input type="password" name="passre" id="passre" value="trungne">
-            <p class="error" id="pwre"></p>
-        </div>
-        <button id="signinbtn" name="signin" >Đăng Ký</button> 
-    </form>
     </div>
 </div>
 <script >
 $().ready(function() {
 
     $.validator.addMethod("regex",function(value,element,regexp) {
-            return this.optional(element) || regexp.test(value)
-        }, "mail không hợp lệ");
+        return this.optional(element) || regexp.test(value)
+    }, "mail không hợp lệ");
 
     var $loginform = $("#loginform");
     $loginform.validate({
         rules: {
-            
             mail: {
                 required:true,
                 email:true,
@@ -131,9 +133,6 @@ $().ready(function() {
             $.ajax({
                 type : 'PATCH',
                 url : '/author',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
                 data : $("#loginform").serialize(),
                 success: function(data) {
                     if (typeof(data) === 'object') {

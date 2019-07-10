@@ -12,18 +12,17 @@
 */
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'BlogController@all');
-    Route::get('/blogs', 'BlogController@all')->middleware('auth');
+    Route::get('/blogs', 'BlogController@all')->name('blog-index');
     Route::get('/blog/{id}', 'BlogController@detail')->name('blog-detail');
-    Route::get('/blog/update/{id}', 'BlogController@getUpdateLayout');
+    Route::get('/blog/update/{id}', 'BlogController@getUpdateLayout')->name('blog-update');
     Route::get('/blog', 'BlogController@getPaper')->name('page')->middleware('auth');
-    Route::put('/blog/', 'BlogController@insert');
-    Route::post('/blog/', 'BlogController@update');
+    Route::put('/blog/', 'BlogController@insert')->name('blog-insert');
+    Route::post('/blog/', 'BlogController@update')->name('blog-update-ajax');
     Route::delete('/blog/', 'BlogController@delete');
-    // app/Http/Controllers/Auth/LoginController.php
 
     Route::get('/author/logon/','AuthorController@logon')->name('logon');
     Route::get('/author/login/','AuthorController@logon')->name('login');
-    Route::get('/author/','AuthorController@getUpdateLayout');
+    Route::get('/author/','AuthorController@getUpdateLayout')->middleware('auth');
     Route::post('/author/','AuthorController@updateDetail');
     Route::patch('/author/','AuthorController@login');
     Route::put('/author/','AuthorController@insert');

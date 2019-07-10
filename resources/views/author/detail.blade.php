@@ -6,40 +6,42 @@
     $user = Auth::user();
 
 @endphp
-
 <div class="container">
-<div class=" row">
-    <form id="detail" enctype="multipart/form-data">
-        <input name="idAuthor" type="hidden" value="{{ $user->id }}" >
-        <div class="form-group">
-            <label for="nickname" >Tên:  </label>
-            <input id="nickname" name="nickname" type="text" value="{{ $user['nickname'] }}" >
-            <p class="error" id="namee"></p>
-        </div>
-        <div class="form-group">
-            <label for="mail" >Email: </label>
-            <input id="mail" name="mail" type="text" value="{{ $user->mail }}" required="required"> 
-            <p class="error" id="maile"></p>
-        </div>
-        <div class="form-group">
-            <label for="passold" >Mật khẩu cũ : </label>
-            <input name="passold" id="passold" type="password" value="trungne" >
-            <p class="error" id="passolde"></p>
-            </div>
-        <div class="form-group">
-            <label for="passnew" >Mật khẩu mới : </label>
-            <input name="passnew" id="passnew" type="password" value="trungne" >
-            <p class="error" id="passnewe"></p>
-        </div>
-        <div class="form-group">
-            <label for="passre" >Mật khẩu mới nhập lại : </label>
-            <input name="passre" id="passre" type="password" value="trungne">
-            <p class="error" id="passree"></p>
-        </div>
-        <button class="btn btn-primary" id="updatedetail" name="update" >Cập nhập</button>
-    </form>
-</div>
+    <div class="row">
+        <div class="offset-4 col-6">
+            <form id="detail" enctype="multipart/form-data">
+                <input name="idAuthor" type="hidden" value="{{ $user->id }}" >
+                <div class="form-group">
+                    <label for="nickname" >Tên:  </label>
+                    <input class="form-control" id="nickname" name="nickname" type="text" value="{{ $user['nickname'] }}" >
+                    <p class="error" id="namee"></p>
+                </div>
+                <div class="form-group">
+                    <label for="mail" >Email: </label>
+                    <input class="form-control" id="mail" name="mail" type="text" value="{{ $user->mail }}" required="required"> 
+                    <p class="error" id="maile"></p>
+                </div>
+                <div class="form-group">
+                    <label for="passold" >Mật khẩu cũ : </label>
+                    <input class="form-control" name="passold" id="passold" type="password" value="trungne" >
+                    <p class="error" id="passolde"></p>
+                    </div>
+                <div class="form-group">
+                    <label for="passnew" >Mật khẩu mới : </label>
+                    <input class="form-control" name="passnew" id="passnew" type="password" value="trungne" >
+                    <p class="error" id="passnewe"></p>
+                </div>
+                <div class="form-group">
+                    <label for="passre" >Mật khẩu mới nhập lại : </label>
+                    <input class="form-control" name="passre" id="passre" type="password" value="trungne">
+                    <p class="error" id="passree"></p>
+                </div>
+                <button class="btn btn-primary" id="updatedetail" name="update" >Cập nhập</button>
 
+                <a href="#" onclick="window.history.back();" class="btn btn-default">Về trang chủ</a>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script >
