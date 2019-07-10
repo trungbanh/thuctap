@@ -13,7 +13,7 @@
         <div class='sign col-4'>
             @if (isset($user))
                 <span id="user">
-                    <a id='username' href='/author/' > {{$user['nickname']}}</a>
+                    <a id='username' href='/author/' > {{ $user->nickname }}</a>
                 </span>
                 <span  id="logout">
                     <a href='/author/logout' >đăng xuất </a>

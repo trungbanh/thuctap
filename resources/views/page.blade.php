@@ -33,9 +33,6 @@
                         type       : 'PUT',
                         url        : '/blog',
                         data       : $("#myform").serialize(),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
                         success: function(result) {
                             if (result) {
                                 console.log(result);

@@ -5,6 +5,8 @@ use \App\Reponsitory\BlogReponsitory;
 use \App\Model\Blog as BlogModel;
 use Illuminate\Http\Request;
 
+use Auth;
+
     class BlogController extends Controller{
         /**
          * insert new blog 
@@ -17,7 +19,7 @@ use Illuminate\Http\Request;
         public function insert(Request $request) {
             $ten = $request->input('title');
             $noidung = $request->input('content');
-            $tacgia = $request->session()->get('user')['id'];
+            $tacgia = $request->session()->get('user')->id;
             if (!empty($ten) && !empty($noidung) && !empty($tacgia) ){
                 $baiviet = new BlogModel();
                 $baiviet->title = $ten;
@@ -38,8 +40,10 @@ use Illuminate\Http\Request;
         public function update(Request $request) {
             $fields = array('title', 'content');
             $data = $request->input();
-            if ($data['idAuthor'] != $request->session()->get('user')['id']) {
-                dd($data,$request->session()->get('user'));
+
+            // die(var_dump($data));
+            if ($data['idAuthor'] != Auth::user()->id) {
+                // dd($data,$request->session()->get('user'));
                 return \response()->json(array('error'=>'sai id'));
             }
 
@@ -72,7 +76,7 @@ use Illuminate\Http\Request;
          */
         public function delete (Request $request) {
             // die(var_dump($request->input(), $request->session()->get('user')['id']));
-            if ($request->input('idAuthor') != $request->session()->get('user')['id']) {
+            if ($request->input('idAuthor') != $request->session()->get('user')->id) {
                 return \response()->json(array('error'=>false));
             }
 

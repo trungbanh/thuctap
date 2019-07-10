@@ -5,6 +5,7 @@
     use Rakit\Validation\Validator;
     use \App\Model\Author as AuthorModel;
     use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
 
     class AuthorController extends Controller {
 
@@ -38,7 +39,7 @@
                 return response()->json($result); 
             }
 
-            $idAuthor = $request->session()->get('user')['id'];
+            $idAuthor = Auth::user()->id;
             $name = $request->input('nickname');
             $mail = $request->input('mail');
             $pass = $request->input('passold');
@@ -64,8 +65,6 @@
             $user->mail=$mail;
 
             if ($user->save()) {
-                // Request::session()->setUser($user);
-                $request->session()->put('user',$user);
                 $result = array('data'=>true);
                 return response()->json($result);
             }
@@ -129,6 +128,7 @@
                 'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@trung\.com$/',
                 'pass' => 'required'
             ]);
+
             $validation->setAliases([
                 'mail' => 'Mail',
                 'pass' => 'Password'
@@ -144,21 +144,17 @@
 
             $mail = $request->input('mail');
             $pass = $request->input('pass');
-            $user = AuthorModel::where('mail',$mail)->first();
 
-            if ($user == null ) {
-                $result = array('error'=>'mail không tồn tại');
-                return response()->json($result);
-            }
-
-            if (AuthorModel::check($pass,$user->password)) {
-                $request->session()->put('user', $user);
+            if (Auth::attempt(array(
+                'mail' => $mail, 
+                'password' => $pass)
+            )) {
                 $result = array('data'=>true);
-                return response()->json($result);
+            } else {
+                $result = array('data'=>false);
             }
 
-            $result = array('error'=>false);
-            return response()->json($result) ;
+            return response()->json($result);
         }
 
         public function logout(Request $request) {
@@ -172,8 +168,7 @@
         }
 
         public function getUpdateLayout(Request $request) {
-            $user = $request->session()->get('user');
-            return response()->view('detailuser',array('user'=>$user ));
+            return response()->view('detailuser');
         }
     }
 ?>

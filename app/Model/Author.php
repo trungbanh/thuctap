@@ -5,9 +5,13 @@ namespace App\Model;
 use \Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Author extends Model {
+class Author extends Authenticatable {
 
+    use Notifiable;
     /**
      * The table associated with the model.
      *
@@ -55,6 +59,53 @@ class Author extends Model {
     {
         $this->attributes['password'] = AuthorModel::hashpass($pass);
         return $this;
+    }
+
+    public function getAuthIdentifierName() {
+        return 'mail';
+    }
+    public function getAuthIdentifier() {
+        return $this->{$this->getAuthIdentifierName()};;
+    }
+
+    /**
+   * {@inheritDoc}
+   * @see \Illuminate\Contracts\Auth\Authenticatable::getAuthPassword()
+   */
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
+ 
+    /**
+     * {@inheritDoc}
+     * @see \Illuminate\Contracts\Auth\Authenticatable::getRememberToken()
+     */
+    public function getRememberToken()
+    {
+        if (! empty($this->getRememberTokenName())) {
+        return $this->{$this->getRememberTokenName()};
+        }
+    }
+ 
+    /**
+     * {@inheritDoc}
+     * @see \Illuminate\Contracts\Auth\Authenticatable::setRememberToken()
+     */
+    public function setRememberToken($value)
+    {
+        if (! empty($this->getRememberTokenName())) {
+        $this->{$this->getRememberTokenName()} = $value;
+        }
+    }
+ 
+    /**
+     * {@inheritDoc}
+     * @see \Illuminate\Contracts\Auth\Authenticatable::getRememberTokenName()
+     */
+    public function getRememberTokenName()
+    {
+        return $this->rememberTokenName;
     }
 }
 ?>

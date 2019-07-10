@@ -1,10 +1,11 @@
-@import './reset.css';
+@import './app.css';
+img {
+    max-width: 100%;
+}
 
-.container {
-    color: whitesmoke;
-    background-color: #ffffff;
-    margin: auto;
-    padding: 20px;
+form {
+    margin: 1rem;
+    padding: 1dp;
 }
 
 .updatebox {
@@ -13,36 +14,9 @@
     padding: 20px;
 }
 
-.card{
-    margin-bottom: 15px;
-}
-
-.card a {
-    color: #000;
-    border: 1px solid rgb(241, 241, 241);
-    border-radius : 3px;
-    display:inline-block;
-    height: 10em;
-    overflow:hidden;
-   padding: 5px;
-}
-
-.card:hover {
-    background-color:rgb(230, 230, 230);
-}
-
 .slide {
     background-color: #f1f1f1;
     padding: 5px;
-}
-
-.btn {
-    background-color: beige;
-    padding: 5px 7px;
-    border: 1px solid #ccc;
-}
-.btn:hover {
-    border-color: red;
 }
 
 
@@ -60,17 +34,6 @@
 
 .sign #login{
     color: #afafaf;
-}
-
-.form {
-    box-sizing: border-box;
-    margin-top: 20px;
-    padding: 10px;
-    position: relative;
-    left: 100px;
-    width: calc(100% - 200px);
-    border: 1px solid black;
-    color: black;
 }
 
 .form + #target {
@@ -125,13 +88,6 @@
 
 @media only screen and (max-width: 650px) {
 
-    .slide {
-        width: calc(100% - 100px);
-        width: 300px;
-        background-color: #f1f1f1;
-        padding: 2px;
-    }
-
     .view_blog {
         height: 100%;
         text-align: left;
@@ -157,9 +113,7 @@
     .navmenu ul * {
       visibility: hidden;
     }
-
-    
-  }
+}
 
 
 #logout a{
@@ -187,44 +141,20 @@
     border-bottom: rgb(190, 190, 190) 1px solid;
 }
 
-span {
-    padding: 2px;
-}
-
-.image {
-    height: 70%;
-    padding: 3px;
-}
-
-.form-group {
-    box-sizing: border-box;
-    padding: 3px;
-}
-
-.form-group * {
-    display: block;
-}
-
-input {
-    border: 1px solid rgb(240, 119, 6);;
-    border-radius: 4px;
-}
-
-input:focus {
-    border: 2px solid rgb(240, 119, 6);
-}
-
-.body-card {
-    display: inline-block;
-    max-height: 8em;
-    white-space: nowrap; 
-    width: 100%; 
-    overflow: hidden;
-    text-overflow:ellipsis;
-}
-
-
 .error {
     display: block;
     color: red;
+}
+
+.category .card {
+    padding: 1rem 0;
+}
+
+
+.category .card .card-body {
+    padding: 10px;
+}
+
+.category .card .card-title {
+    min-height: 50px;
 }

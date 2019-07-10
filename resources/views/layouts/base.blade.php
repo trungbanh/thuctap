@@ -14,7 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
 </head>
 <body>
-@include('layouts.header')
-@yield('body')
-@include('layouts.footer')
+    @include('layouts.header')
+    @yield('body')
+    @include('layouts.footer')
+</body>
 </html>
