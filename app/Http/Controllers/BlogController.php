@@ -25,7 +25,7 @@ use Auth;
                 $baiviet = new BlogModel();
                 $baiviet->title = $ten;
                 $baiviet->content=$noidung; 
-                $baiviet->author=$tacgia;
+                $baiviet->id_author=$tacgia;
                 $baiviet->save();
                 return \response()->json(array('data'=>true));
             }

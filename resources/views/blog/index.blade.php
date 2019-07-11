@@ -9,6 +9,7 @@
         <div class="col-12 col-md-9">
             <div class="row">
                 @foreach ($blogs as $blog)
+
                 <div class="col-sm-4 col-md-3 col-6">
                     <div class="card">
                         <a href="{{ route('blog-detail', ['id' => $blog->id]) }}"> 
@@ -19,7 +20,7 @@
                                 <div class="card-title">{{ $blog->title }}</div>
                             </a>
                             <div class="text-right author">
-                                {{\App\Http\Controllers\Unit::getNicknameById($blog->author)['nickname'] }}
+                                {{ $blog->author->nickname }}
                             </div>
                         </div>
                     </div>

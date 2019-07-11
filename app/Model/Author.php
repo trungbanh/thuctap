@@ -111,7 +111,7 @@ class Author extends Authenticatable {
     public function blogs()
     {
         //     $this->hasMany(<Tên Model>     , <khoá chính của model Author>, <tên khoá của model Author trong Blog>)
-        return $this->hasMany('App\Model\Blog', 'id', 'author');
+        return $this->hasMany('App\Model\Blog', 'id', 'id_author');
     }
 
 }

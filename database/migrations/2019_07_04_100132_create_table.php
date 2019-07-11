@@ -14,17 +14,17 @@ class CreateTable extends Migration
     public function up()
     {
         Schema::create('Author', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('nickname');
             $table->string('mail');
             $table->string('password');
         });
 
         Schema::create('MyBlog', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->text('title');
             $table->longText('content');
-            $table->integer('author');
+            $table->integer('id_author')->references('id')->on('Author');
         });
     }
 
@@ -35,7 +35,7 @@ class CreateTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('Author');
-        // Schema::dropIfExists('MyBlog');
+        Schema::dropIfExists('Author');
+        Schema::dropIfExists('MyBlog');
     }
 }

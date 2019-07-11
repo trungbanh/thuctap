@@ -27,14 +27,14 @@ class Blog extends Model
     protected $fillable = array(
         'title', 
         'content', 
-        'author',
+        'id_author',
         'id'
     );
 
     public function author()
     {
         //     $this->belongsTo(<Tên Model>        , <Khoá ngoại>, <khoá chính của model Blog>)
-        return $this->belongsTo('\App\Model\Author', 'author', 'id');
+        return $this->belongsTo('\App\Model\Author', 'id_author', 'id');
     }
 }
 ?>

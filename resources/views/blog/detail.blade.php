@@ -40,7 +40,7 @@
                 <div>
                     <img src="/images/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
                     <p> quảng cáo  </p>
-                    <p> phần này thuộc tác giả {{ \App\Http\Controllers\Unit::getNicknameById($blog->author)['nickname'] }} </p>
+                    <p> phần này thuộc tác giả {{ $blog->author->nickname }} </p>
                 </div>
             @endif
         </div>
@@ -51,7 +51,7 @@
                     {{ $blog->content}}
             </p>
             <p id="author_blog"> 
-                {{ \App\Http\Controllers\Unit::getNicknameById($blog->author)['nickname'] }}
+                {{ $blog->author->nickname }}
             </p>
         </article>
     </div>

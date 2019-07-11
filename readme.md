@@ -4,5 +4,5 @@
 
 ## Quickstart 
 
-> php artisan migrate:up
+> php artisan migrate
 
