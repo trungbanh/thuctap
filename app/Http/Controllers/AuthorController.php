@@ -2,9 +2,7 @@
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
-    // use Rakit\Validation\Validator;
     use Illuminate\Support\Facades\Validator;
-
     use \App\Model\Author as AuthorModel;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
@@ -19,7 +17,6 @@
             // idAuthor, nickname, mail, password
 
             $result = array();
-            
             $validation = Validator::make($request->input(), [
                 'nickname' => 'required',
                 'mail' => 'required|email|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung\.com)$/',

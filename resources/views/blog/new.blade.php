@@ -46,9 +46,9 @@
         });
 
     </script>
-    <div class='offset-3 col-6'>
+    <div class="offset-3 col-6">
         <h3>Viết bài </h3>
-        <form id="myform" enctype='multipart/form-data'> 
+        <form id="myform" enctype="multipart/form-data"> 
             <label for="title"> Tên bài viết  </label>
             <textarea class="form-control" type="text" name="title" id="title" rows="2" cols="35"  ></textarea> <br> <br>
             <label for="contet"> Nội dung bài viết  </label>
@@ -58,8 +58,8 @@
         </form> 
     </div>
     @else
-    <div class='ads'>
-        <img src="./static/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
+    <div class="ads">
+        <img src="./static/qc.jpeg" alt="quảng cáo"/>
         <p> quảng cáo  </p>
     </div>
     @endif

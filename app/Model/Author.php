@@ -108,5 +108,11 @@ class Author extends Authenticatable {
         return $this->rememberTokenName;
     }
 
+    public function blogs()
+    {
+        //     $this->hasMany(<Tên Model>     , <khoá chính của model Author>, <tên khoá của model Author trong Blog>)
+        return $this->hasMany('App\Model\Blog', 'id', 'author');
+    }
+
 }
 ?>

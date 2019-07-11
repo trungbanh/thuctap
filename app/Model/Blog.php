@@ -30,5 +30,11 @@ class Blog extends Model
         'author',
         'id'
     );
+
+    public function author()
+    {
+        //     $this->belongsTo(<Tên Model>        , <Khoá ngoại>, <khoá chính của model Blog>)
+        return $this->belongsTo('\App\Model\Author', 'author', 'id');
+    }
 }
 ?>

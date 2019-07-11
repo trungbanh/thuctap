@@ -2,5 +2,7 @@
 
 > instructor Nguyen Thien Hung 
 
+## Quickstart 
 
+> php artisan migrate:up
 
