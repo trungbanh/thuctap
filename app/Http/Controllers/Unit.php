@@ -10,7 +10,7 @@ class Unit {
     public static function getNicknameById($id) {
         $author = Author::find($id);
         if ($author == null) {
-            return array('nickname'=>'null');
+            return array('nickname'=>'ẩn danh');
         }
 
         return array('nickname'=>$author->nickname);

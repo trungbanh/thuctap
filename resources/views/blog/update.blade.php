@@ -9,7 +9,7 @@
 
 <div class="container">
     <div class='row'>
-        @if ($user['id'] == $blog['author'])
+        @if ($user instanceof \App\Model\Author && $user->id === $blog->author)
         <div class="col-6 offset-3">
             <form id="myform" enctype='multipart/form-data'> 
                 <input name="id" value="{{ $blog->id }}"  hidden/>
@@ -23,7 +23,7 @@
                     <textarea class="form-control" type="text" name="content" id="content" rows="20" cols="35" >{{ $blog->content }}</textarea>
                 </div>
                 <div class="form-group">
-                    <input class="btn btn-primary" type="submit" id='target' value="Cập nhập bài viết"/>
+                    <input class="btn btn-primary" type="submit" id="target" value="Cập nhập bài viết"/>
                     <a href="#" onclick="window.history.back();" class="btn btn-default">Trở lại</a>
                 </div>
             </form> 
@@ -71,9 +71,13 @@
             });
         </script>
         @else
-        <div class='ads'>
-            <img src="/images/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
+        <div class="ads">
+            <img src="/images/qc.jpeg" alt="quảng cáo""/>
             <p> quảng cáo  </p>
+        </div>
+
+        <div>
+            <h3 class="error"> PHẦN NÀY THUỘC TÁC GIẢ  BẠN KHÔNG ĐƯỢC PHÉP THAO TÁC </h3>
         </div>
         @endif
     </div>

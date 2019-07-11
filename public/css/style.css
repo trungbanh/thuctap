@@ -146,15 +146,23 @@ form {
     color: red;
 }
 
-.category .card {
-    padding: 1rem 0;
+.card-title {
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-height: 50px;
 }
 
+.category .card {
+    margin-top: 1rem;
+}
 
 .category .card .card-body {
     padding: 10px;
 }
 
-.category .card .card-title {
-    min-height: 50px;
+.author {
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

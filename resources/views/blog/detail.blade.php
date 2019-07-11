@@ -5,13 +5,12 @@
 
 @php 
     $user = Auth::user();
-    \App\Http\Controllers\Unit::getNicknameById(1);
 @endphp
 
 <div class="container" >
     <div class='row'>
         <div class='col-lg-3 col-sm-12'>
-            @if ($user['id'] ===$blog['author'])
+            @if ( $user instanceof \App\Model\Author && $user->id === $blog->author)
                 <script >
                     $(document).ready(function(){
                         $("#btn-blog-delete").on("click",function(event){
@@ -20,8 +19,8 @@
                                 type       : 'DELETE',
                                 url        : '/blog/',
                                 data       : {
-                                    id: "{{ $blog['id'] }}",
-                                    idAuthor: "{{ $blog['author'] }}"
+                                    id: "{{ $blog->id }}",
+                                    idAuthor: "{{ $blog->author }}"
                                 },
                                 success: function(result) {
                                     if (typeof result === 'object' && result.data) {
@@ -42,9 +41,8 @@
                 <div>
                     <img src="/images/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
                     <p> quảng cáo  </p>
-                    <p> phần này thuộc tác giả {{ $blog->author}} </p>
+                    <p> phần này thuộc tác giả {{ \App\Http\Controllers\Unit::getNicknameById($blog->author)['nickname'] }} </p>
                 </div>
-                
             @endif
         </div>
 
@@ -54,10 +52,9 @@
                     {{ $blog->content}}
             </p>
             <p id="author_blog"> 
-                {{"write by " . \App\Http\Controllers\Unit::getNicknameById($blog->author)['nickname'] }}
+                {{ \App\Http\Controllers\Unit::getNicknameById($blog->author)['nickname'] }}
             </p>
         </article>
-
     </div>
 </div>
 

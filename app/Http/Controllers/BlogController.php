@@ -120,7 +120,5 @@ use Auth;
         function getPaper(Request $request) {
             return response()->view('blog.new', array('user'=> Auth::user()));
         }
-
-        
     }
 ?>

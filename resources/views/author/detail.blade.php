@@ -13,7 +13,7 @@
                 <input name="idAuthor" type="hidden" value="{{ $user->id }}" >
                 <div class="form-group">
                     <label for="nickname" >Tên:  </label>
-                    <input class="form-control" id="nickname" name="nickname" type="text" value="{{ $user['nickname'] }}" >
+                    <input class="form-control" id="nickname" name="nickname" type="text" value="{{ $user->nickname }}" >
                     <p class="error" id="namee"></p>
                 </div>
                 <div class="form-group">
