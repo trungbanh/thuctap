@@ -10,7 +10,7 @@
 <div class="container" >
     <div class='row'>
         <div class='col-lg-3 col-sm-12'>
-            @if ( $user instanceof \App\Model\Author && $user->id === $blog->author)
+            @if ( $user instanceof \App\Model\Author && $user->id === $blog->id_author)
                 <script >
                     $(document).ready(function(){
                         $("#btn-blog-delete").on("click",function(event){
@@ -20,7 +20,7 @@
                                 url        : '/blog/',
                                 data       : {
                                     id: "{{ $blog->id }}",
-                                    idAuthor: "{{ $blog->author }}"
+                                    idAuthor: "{{ $blog->id_author }}"
                                 },
                                 success: function(result) {
                                     if (typeof result === 'object' && result.data) {
@@ -38,7 +38,7 @@
                 <a class="btn btn-primary" href="{{ route('blog-update', ['id' => $blog->id])}}">Cập nhập nội dung</a>
             @else
                 <div>
-                    <img src="/images/qc.jpeg" alt="quảng cáo" style='width: 10em;'/>
+                    <img src="{{asset('images/qc.jpeg') }}" alt="quảng cáo" style='width: 10em;'/>
                     <p> quảng cáo  </p>
                     <p> phần này thuộc tác giả {{ $blog->author->nickname }} </p>
                 </div>

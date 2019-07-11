@@ -9,11 +9,11 @@
 
 <div class="container">
     <div class='row'>
-        @if ($user instanceof \App\Model\Author && $user->id === $blog->author)
+        @if ($user instanceof \App\Model\Author && $user->id === $blog->id_author)
         <div class="col-6 offset-3">
             <form id="myform" enctype='multipart/form-data'> 
                 <input name="id" value="{{ $blog->id }}"  hidden/>
-                <input name="idAuthor" value="{{ $blog->author }}"  hidden/>
+                <input name="idAuthor" value="{{ $blog->id_author }}"  hidden/>
                 <div class="form-group">
                     <label for="title">Tên bài viết  </label>
                     <textarea class="form-control" type="text" name="title" id="title" rows="2" cols="35" >{{ $blog->title }}</textarea>
@@ -72,7 +72,7 @@
         </script>
         @else
         <div class="ads">
-            <img src="/images/qc.jpeg" alt="quảng cáo""/>
+            <img src="asset('images/qc.jpeg')" alt="quảng cáo""/>
             <p> quảng cáo  </p>
         </div>
 

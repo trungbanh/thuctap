@@ -13,7 +13,7 @@
                 <div class="col-sm-4 col-md-3 col-6">
                     <div class="card">
                         <a href="{{ route('blog-detail', ['id' => $blog->id]) }}"> 
-                            <img class="card-img-top" src="{{url('/images/download.jpeg')}}"  />
+                            <img class="card-img-top" src="{{ asset('images/download.jpeg')}}"  />
                         </a>
                         <div class="card-body">
                             <a href="{{ route('blog-detail', ['id' => $blog->id]) }}"> 
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-12 col-md-3">
-            <img class="image col-12 " src="{{url('/images/qc.jpeg')}}" alt="quảng cáo"/>
+            <img class="image col-12 " src="{{asset('images/qc.jpeg')}}" alt="quảng cáo"/>
             <span> quảng cáo </span>
         </div>
     </div>
