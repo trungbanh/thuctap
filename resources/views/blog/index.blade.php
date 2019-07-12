@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-12 col-md-3">
-            <img class="image col-12 " src="{{asset('images/qc.jpeg')}}" alt="quảng cáo"/>
+            <img class="image col-12" src="{{asset('images/qc.jpeg')}}" alt="quảng cáo"/>
             <span> quảng cáo </span>
         </div>
     </div>

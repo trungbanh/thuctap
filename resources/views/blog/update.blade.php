@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     <input class="btn btn-primary" type="submit" id="target" value="Cập nhập bài viết"/>
-                    <a href="#" onclick="window.history.back();" class="btn btn-default">Trở lại</a>
+                    <button href="#" onclick="window.history.back();" class="btn btn-default">Trở lại</button>
                 </div>
             </form> 
         </div>

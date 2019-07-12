@@ -22,12 +22,17 @@ use Auth;
             $noidung = $request->input('content');
             $tacgia = Auth::user()->id;
             if (!empty($ten) && !empty($noidung) && !empty($tacgia) ){
-                $baiviet = new BlogModel();
-                $baiviet->title = $ten;
-                $baiviet->content=$noidung; 
-                $baiviet->id_author=$tacgia;
-                $baiviet->save();
-                return \response()->json(array('data'=>true));
+                try {
+                    $baiviet = new BlogModel();
+                    $baiviet->title = $ten;
+                    $baiviet->content=$noidung; 
+                    $baiviet->id_author=$tacgia;
+                    $baiviet->save();
+                    return \response()->json(array('data'=>true));
+                } catch (Exception $e) {
+                    return \response()->json(array('error'=>'lỗi hệ thống', 'msg'=> $e));
+                }
+                
             }
             return \response()->json(array('error'=>false));
         }
@@ -42,9 +47,8 @@ use Auth;
             $fields = array('title', 'content');
             $data = $request->input();
 
-            // die(var_dump($data));
             if ($data['idAuthor'] != Auth::user()->id) {
-                return \response()->json(array('error'=>'Sai id'));
+                return \response()->json(array('error'=>'Id không trùng khớp'));
             }
 
             // dong nay co nghia 
@@ -62,10 +66,16 @@ use Auth;
             $update->title = $data['title'];
             $update->content = $data['content'];
 
-            if ($update->save()) {
+            try {
+                $result = $update->save();
+            } catch (Exception $e) {
+                return \response()->json(array('error'=>'lỗi hệ thống', 'msg'=> $e));
+            }
+
+            if ($result) {
                 return \response()->json(array('data'=>true));
             } else {
-                return \response()->json(array('error'=>'sai cap nhap'));
+                return \response()->json(array('error'=>'cập nhập thất bại'));
             }
         }
 
@@ -76,14 +86,20 @@ use Auth;
          */
         public function delete (Request $request) {
             if ($request->input('idAuthor') != Auth::user()->id) {
-                return \response()->json(array('error'=>false));
+                return \response()->json(array('error'=>true));
             }
+            try {
+                $result = BlogModel::destroy($request->input('id'));
 
-            if (BlogModel::destroy($request->input('id'))) {
-                return \response()->json(array('data'=>true));
-            } else {
-                return \response()->json(array('error'=>false));
+                if ($result) {
+                    return \response()->json(array('data'=>true));
+                } else {
+                    return \response()->json(array('error'=>true));
+                }
+            } catch (Exception $e) {
+                return \response()->json(array('error'=>true , 'mgs'=> $e));
             }
+           
         }
 
         /**
@@ -92,8 +108,13 @@ use Auth;
          * @return array BlogModel or false 
          */
         public function all(Request $request) {
-            $blogs = BlogModel::all();
-            return response()->view('blog.index', array('blogs'=> $blogs, 'user' => Auth::user()));
+            try {
+                $blogs = BlogModel::all();
+                return response()->view('blog.index', array('blogs'=> $blogs));
+            } catch (Exception $e) {
+                return response()->view('blog.index');
+            }
+            
         }
 
         /**
@@ -103,22 +124,27 @@ use Auth;
          */
         function detail(Request $request, $id) {
             try {
-
                 $detail = BlogModel::where('id',$id)->firstOrFail();
+                return response()->view('blog.detail', array('blog'=> $detail));
+
             } catch(\Exception $e) {
                 return redirect(route('blog-index'));
             }
-
-            return response()->view('blog.detail', array('blog'=> $detail, 'user'=> Auth::user()));
         }
 
         function getUpdateLayout (Request $request, $id) {
-            $detail = BlogModel::find($id);
-            return response()->view('blog.update', array('blog'=> $detail,'user'=> Auth::user()));
+
+            try {
+                $detail = BlogModel::find($id);
+                return response()->view('blog.update', array('blog'=> $detail));
+            } catch (Exception $e) {
+                return response()->view('blog.update', array('error'=> $e));
+            }
+            
         }
 
         function getPaper(Request $request) {
-            return response()->view('blog.new', array('user'=> Auth::user()));
+            return response()->view('blog.new');
         }
     }
 ?>

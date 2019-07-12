@@ -27,7 +27,7 @@
             if ($validation->fails()) {
                 // handling errors
                 $errors = $validation->errors();
-                $result = array("error"=>$errors->firstOfAll());
+                $result = array("error"=>$errors->all());
                 return response()->json($result); 
             }
 
@@ -37,7 +37,8 @@
             $pass = $request->input('passold');
             $passnew = $request->input('passnew');
 
-            $user = AuthorModel::find($idAuthor);
+            $user = Auth::user();
+
             if (!AuthorModel::check($pass, $user['password'])) {
                 $result=array('error'=> array('passold' => 'sai mật khẩu cũ'));
                 return response()->json($result);
@@ -56,13 +57,16 @@
             $user->nickname=$name;
             $user->mail=$mail;
 
-            if ($user->save()) {
-                $result = array('data'=>true);
+            try {
+                $result = $user->save();
+                if ($result) {
+                    $result = array('data'=>true);
+                    return response()->json($result);
+                }
+            } catch (Exception $e) {
+                $result = array('error'=> array( 'status' =>'cập nhập thất bại', 'mgs'=> $e));
                 return response()->json($result);
             }
-
-            $result = array('error'=> array( 'status' =>'cập nhập thất bại'));
-            return response()->json($result);
         }
 
         public function insert(Request $request) {
@@ -76,8 +80,7 @@
             ]);
             if ($validation->fails()) {
                 $errors = $validation->errors();
-                $result = array('error'=>$errors->firstOfAll());
-                die(var_dump($result));
+                $result = array('error'=>$errors->all());
                 return response()->json($result) ;
             }
 
@@ -91,14 +94,18 @@
                 return response()->json($result);
             }
             $hashpass = AuthorModel::hashpass($pass);
-            $author = new AuthorModel();
-            // array('nickName'=>$name,'mail'=>$mail,'password'=>$hashpass)
-            $author->nickname = $name;
-            $author->mail = $mail;
-            $author->password = $hashpass;
-            $author->save();
-            
-            $result = array('data'=>true);
+
+            try {
+                $author = new AuthorModel();
+                $author->nickname = $name;
+                $author->mail = $mail;
+                $author->password = $hashpass;
+                $author->save();
+                $result = array('data'=>true);
+            } catch (Exception $e) {
+                $result = array('error'=>true, 'mgs' => $e);
+                
+            }
             return response()->json($result);
         }
 
@@ -112,7 +119,7 @@
 
             if ($validation->fails()) {
                 $errors = $validation->errors();
-                $result = array('error'=>$errors->firstOfAll());
+                $result = array('error'=>$errors->all());
                 
                 return response()->json($result) ;
             }
@@ -120,13 +127,17 @@
             $mail = $request->input('mail');
             $pass = $request->input('pass');
 
-            if (Auth::attempt(array(
-                'mail' => $mail, 
-                'password' => $pass)
-            )) {
-                $result = array('data'=>true);
-            } else {
-                $result = array('data'=>false);
+            try {
+                if (Auth::attempt(array(
+                    'mail' => $mail, 
+                    'password' => $pass)
+                )) {
+                    $result = array('data'=>true);
+                } else {
+                    $result = array('data'=>false);
+                }
+            } catch (Exception $e) {
+                $result = array('error'=>true, 'mgs'=> $e);
             }
 
             return response()->json($result);

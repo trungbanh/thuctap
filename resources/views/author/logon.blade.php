@@ -94,7 +94,7 @@ $().ready(function() {
             mail: {
                 required:true,
                 email:true,
-                regex: /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung.com)$/,
+                regex: /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@(trung\.com)$/,
             },
             pass: {
                 required: true,
@@ -107,21 +107,21 @@ $().ready(function() {
         },
         messages: {
             name: {
-                required:"chưa nhập tên",
-                minlength:"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
-                maxlenght:"tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
+                required:"Chưa nhập tên",
+                minlength:"Tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
+                maxlenght:"Tên phải nhiều hơn 2 ký tự và không quá 25 ký tự",
             },
             mail: {
-                required:"chưa nhập mail",
-                email:"mail chỉ chấp nhận @trung.com",
+                required:"Chưa nhập mail",
+                email:"Mail chỉ chấp nhận @trung.com",
             },
             pass: {
-                required: "nhập mật khẩu",
-                minlength: "độ dài tối thiểu là 5"
+                required: "Nhập mật khẩu",
+                minlength: "Độ dài tối thiểu là 5"
             },
             passre: {
-                required: "chưa xác nhận lại",
-                equalTo: "xác nhận không khớp mật khẩu"
+                required: "Chưa xác nhận lại",
+                equalTo: "Xác nhận không khớp mật khẩu"
             }
         }
     });
@@ -131,12 +131,11 @@ $().ready(function() {
 
         if ($loginform.valid()) {
             $.ajax({
-                type : 'PATCH',
+                type : 'POST',
                 url : '/author',
                 data : $("#loginform").serialize(),
                 success: function(data) {
                     if (typeof(data) === 'object') {
-                        // let result = JSON.parse(data);
                         let result = data;
                         if (typeof(result) === 'object') {
                             if (typeof result.error === 'object') {
@@ -153,7 +152,7 @@ $().ready(function() {
                             }
                         }
                     } else {
-                        console.log("loi kieu du lieu");
+                        $("#loginforme").html("lỗi quá trình cập nhập");
                     }
                 }
             });

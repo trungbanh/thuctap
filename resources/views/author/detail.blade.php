@@ -100,7 +100,7 @@
             event.preventDefault();
             if ($detail.valid()){
                 $.ajax({
-                    type : 'POST',
+                    type : 'PATCH',
                     url : '/author',
                     data : $("#detail").serialize(),
                     success: function(data) {
